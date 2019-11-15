@@ -55,7 +55,30 @@ public class Connect4View extends Application implements java.util.Observer {
 	 * to handle the corresponding events.
 	 */
 	private void setupStage() {
+		createGridPane();
+		// Creating MenuBar
+		MenuBar menuBar = new MenuBar();
+		final Menu fileMenu = new Menu("File");
+		menuBar.getMenus().add(fileMenu);
+		MenuItem newGameItem = new MenuItem("New Game");
+		// Add new game functionality
+		newGameItem.setOnAction((e) -> {
+			
+		});
+		fileMenu.getItems().add(newGameItem);
 		
+		VBox vBox = new VBox();
+		vBox.getChildren().add(menuBar);
+		vBox.getChildren().add(gridPane);
+		
+		// Add vBox to Scene & set Scene for Stage
+		Scene scene = new Scene(vBox);
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Connect 4");
+		
+	}
+	
+	public void createGridPane() {
 		// Setup GridPane Object
 		gridPane = new GridPane();
 		gridPane.setStyle("-fx-background-color: #0000FF;");
@@ -89,27 +112,6 @@ public class Connect4View extends Application implements java.util.Observer {
 				gridPane.add(circle, col, row);
 			}
 		}
-		
-		// Creating MenuBar
-		MenuBar menuBar = new MenuBar();
-		final Menu fileMenu = new Menu("File");
-		menuBar.getMenus().add(fileMenu);
-		MenuItem newGameItem = new MenuItem("New Game");
-		// Add new game functionality
-		newGameItem.setOnAction((e) -> {
-			
-		});
-		fileMenu.getItems().add(newGameItem);
-		
-		VBox vBox = new VBox();
-		vBox.getChildren().add(menuBar);
-		vBox.getChildren().add(gridPane);
-		
-		// Add vBox to Scene & set Scene for Stage
-		Scene scene = new Scene(vBox);
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Connect 4");
-		
 	}
 
 	@Override
