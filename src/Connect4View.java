@@ -3,6 +3,8 @@
  * 
  */
 
+import java.util.Observable;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -11,7 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.shape.Circle;
 
-public class Connect4View extends Application {
+public class Connect4View extends Application implements java.util.Observer {
 	
 	// Class variables
 	private static final int ROWS = 6;
@@ -21,12 +23,16 @@ public class Connect4View extends Application {
 	private static final Circle DEFAULT_CIRCLE = new Circle(CIRCLE_RADIUS); // Clones can be used later on
 	
 	// Calculated detectable range for a single column
-	private static final int EXTREME_RANGE = (int) ((2*CIRCLE_RADIUS) + DEFAULT_GAP + (DEFAULT_GAP / 2)); // 52 pixels
-	private static final int INNER_RANGE = (int) ((2*CIRCLE_RADIUS) + (2 * DEFAULT_GAP / 2)); // 48 pixels
+	private static final int OUTER_RANGE = (int) ((2*CIRCLE_RADIUS) + DEFAULT_GAP + (DEFAULT_GAP / 2)); // 52 pixels
+	private static final int INNER_RANGE = (int) ((2*CIRCLE_RADIUS) + DEFAULT_GAP); // 48 pixels
 	
 	private Stage primaryStage;
 	private GridPane gridPane;
-	private double maxRange;
+	private double sceneWidth;
+	
+	// Model and Controller
+	// <INSERT MODEL>
+	// <INSERT CONTROLLER>
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -35,8 +41,8 @@ public class Connect4View extends Application {
 		this.primaryStage.show();
 		
 		// Grab size
-		this.maxRange = this.primaryStage.getWidth();
-		System.out.println(maxRange);
+		this.sceneWidth = this.primaryStage.getWidth();
+		System.out.println(sceneWidth);
 	}
 	
 	/**
@@ -64,14 +70,16 @@ public class Connect4View extends Application {
 			
 			int targetColumn;
 			int xPos = (int)e.getX();
-			if (xPos <= EXTREME_RANGE) {
-				// 52 pixel range
-				targetColumn = (int)(xPos / EXTREME_RANGE);
+			if (xPos <= OUTER_RANGE) {
+				targetColumn = 0;
+			} else if (xPos >= sceneWidth - OUTER_RANGE) {
+				targetColumn = 6;
 			} else {
 				// 48 pixel range
-				targetColumn = (int)(xPos / INNER_RANGE);
+				targetColumn = (int)((xPos - 4) / INNER_RANGE);
 			}
-			System.out.println(targetColumn);
+			
+			// Pass to model the column requested by user
 		});
 		
 		// Initialize each cell with a WHITE Circle Object
@@ -86,6 +94,12 @@ public class Connect4View extends Application {
 		// Add GridPane to Scene & set Scene for Stage
 		Scene scene = new Scene(gridPane);
 		primaryStage.setScene(scene);
+		
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
 		
 	}
 
