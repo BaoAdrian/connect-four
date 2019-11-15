@@ -4,6 +4,10 @@ public class Connect4Controller {
 	// Creates Model and View
 	private Connect4Model model;
 	
+	// Public constants
+	public static final int ROWS = 6;
+	public static final int COLUMNS = 7;
+	
 	public Connect4Controller() {
 		this.model = new Connect4Model();
 	}
