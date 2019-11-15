@@ -21,16 +21,22 @@ public class Connect4View extends Application {
 	private static final Circle DEFAULT_CIRCLE = new Circle(CIRCLE_RADIUS); // Clones can be used later on
 	
 	// Calculated detectable range for a single column
-	private static final int DETECTED_RANGE = (int) ((2*CIRCLE_RADIUS) + DEFAULT_GAP + (DEFAULT_GAP / 2)); // 52 pixels
+	private static final int EXTREME_RANGE = (int) ((2*CIRCLE_RADIUS) + DEFAULT_GAP + (DEFAULT_GAP / 2)); // 52 pixels
+	private static final int INNER_RANGE = (int) ((2*CIRCLE_RADIUS) + (2 * DEFAULT_GAP / 2)); // 48 pixels
 	
 	private Stage primaryStage;
 	private GridPane gridPane;
+	private double maxRange;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
 		setupStage();
 		this.primaryStage.show();
+		
+		// Grab size
+		this.maxRange = this.primaryStage.getWidth();
+		System.out.println(maxRange);
 	}
 	
 	/**
@@ -44,7 +50,7 @@ public class Connect4View extends Application {
 	 */
 	private void setupStage() {
 		
-		// Create GridPane Object
+		// Setup GridPane Object
 		gridPane = new GridPane();
 		gridPane.setStyle("-fx-background-color: #0000FF;");
 		gridPane.setHgap(DEFAULT_GAP);
@@ -55,6 +61,17 @@ public class Connect4View extends Application {
 		gridPane.setOnMouseClicked( e -> {
 			// Pixel calculations
 			System.out.println("getX(): " + e.getX()); // stub
+			
+			int targetColumn;
+			int xPos = (int)e.getX();
+			if (xPos <= EXTREME_RANGE) {
+				// 52 pixel range
+				targetColumn = (int)(xPos / EXTREME_RANGE);
+			} else {
+				// 48 pixel range
+				targetColumn = (int)(xPos / INNER_RANGE);
+			}
+			System.out.println(targetColumn);
 		});
 		
 		// Initialize each cell with a WHITE Circle Object
