@@ -12,7 +12,7 @@ public class Connect4Model {
 	}
 	
 	/**
-	 * This method initializes the 2D list that will contain the disks.
+	 * This method initializes the 2D list that will contain the tokens.
 	 * Where pucks will be represented as integers defined by the id given
 	 * by the User object that performed the move. Each inner list in the 
 	 * board is a column, each element in the inner list represents a row.
@@ -34,7 +34,7 @@ public class Connect4Model {
 	
 	/**
 	 * Getter method for the board object
-	 * @return 2D list containing disks.
+	 * @return 2D list containing tokens.
 	 */
 	public List<List<Integer>> getBoard() {
 		return board;
