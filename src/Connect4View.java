@@ -95,6 +95,10 @@ public class Connect4View extends Application implements java.util.Observer {
 		final Menu fileMenu = new Menu("File");
 		menuBar.getMenus().add(fileMenu);
 		MenuItem newGameItem = new MenuItem("New Game");
+		// Add new game functionality
+		newGameItem.setOnAction((e) -> {
+			
+		});
 		fileMenu.getItems().add(newGameItem);
 		
 		VBox vBox = new VBox();
