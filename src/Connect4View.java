@@ -78,7 +78,7 @@ public class Connect4View extends Application implements java.util.Observer {
 		
 	}
 	
-	public void createGridPane() {
+	private void createGridPane() {
 		// Setup GridPane Object
 		gridPane = new GridPane();
 		gridPane.setStyle("-fx-background-color: #0000FF;");
