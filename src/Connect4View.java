@@ -31,13 +31,12 @@ public class Connect4View extends Application implements java.util.Observer {
 	private GridPane gridPane;
 	private double sceneWidth;
 	
-	// Model and Controller
-	// <INSERT MODEL>
-	// <INSERT CONTROLLER>
+	private Connect4Controller controller;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
+		controller = new Connect4Controller();
 		setupStage();
 		this.primaryStage.show();
 		
@@ -63,7 +62,7 @@ public class Connect4View extends Application implements java.util.Observer {
 		MenuItem newGameItem = new MenuItem("New Game");
 		// Add new game functionality
 		newGameItem.setOnAction((e) -> {
-			
+			createGridPane();
 		});
 		fileMenu.getItems().add(newGameItem);
 		
