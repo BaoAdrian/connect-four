@@ -40,7 +40,7 @@ public class Connect4Controller {
 	 */
 	public void placeMove(int column) {
 		// update model 
-		model.placeMove(column);
+//		model.placeMove(column);
 	}
 	
 	/**

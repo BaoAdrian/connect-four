@@ -8,7 +8,11 @@ import java.util.Observable;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.shape.Circle;
@@ -86,9 +90,21 @@ public class Connect4View extends Application implements java.util.Observer {
 			}
 		}
 		
-		// Add GridPane to Scene & set Scene for Stage
-		Scene scene = new Scene(gridPane);
+		// Creating MenuBar
+		MenuBar menuBar = new MenuBar();
+		final Menu fileMenu = new Menu("File");
+		menuBar.getMenus().add(fileMenu);
+		MenuItem newGameItem = new MenuItem("New Game");
+		fileMenu.getItems().add(newGameItem);
+		
+		VBox vBox = new VBox();
+		vBox.getChildren().add(menuBar);
+		vBox.getChildren().add(gridPane);
+		
+		// Add vBox to Scene & set Scene for Stage
+		Scene scene = new Scene(vBox);
 		primaryStage.setScene(scene);
+		primaryStage.setTitle("Connect 4");
 		
 	}
 
