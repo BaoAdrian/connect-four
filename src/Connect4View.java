@@ -42,7 +42,6 @@ public class Connect4View extends Application implements java.util.Observer {
 		
 		// Grab size
 		this.sceneWidth = this.primaryStage.getWidth();
-		System.out.println(sceneWidth);
 	}
 	
 	/**
@@ -66,7 +65,6 @@ public class Connect4View extends Application implements java.util.Observer {
 		// Set event for gridPane
 		gridPane.setOnMouseClicked( e -> {
 			// Pixel calculations
-			System.out.println("getX(): " + e.getX()); // stub
 			
 			int targetColumn;
 			int xPos = (int)e.getX();
