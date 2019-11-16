@@ -10,6 +10,9 @@ public class Connect4Controller {
 	public static final int COLUMNS = 7;
 	private static final int WINNING_COUNT = 4;
 	
+	//Fields
+	private boolean isServer;
+	
 	public Connect4Controller() {
 		this.model = new Connect4Model();
 	}
