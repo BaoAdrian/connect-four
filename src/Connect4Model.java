@@ -28,7 +28,7 @@ public class Connect4Model {
 		}
 	}
 	
-	public void placeMove(Player player, int column) {
+	public void placeMove() {
 		
 	}
 	
