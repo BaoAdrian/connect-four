@@ -136,14 +136,15 @@ public class Connect4Controller {
 		Integer currId = -1;
 		for (int row = 0; row < ROWS; row++) {
 			int currCount = 0;
+				// currCount should be inside first for loop
 			for (int col = 0; col < COLUMNS; col++) {
-				if (model.getBoard().get(row).get(col).equals(currId)) {
+				if (model.getBoard().get(col).get(row).equals(currId)) {
 					currCount++;
 					if (currCount == WINNING_COUNT) {
 						return true;
 					}
 				} else {
-					currId = model.getBoard().get(row).get(col);
+					currId = model.getBoard().get(col).get(row);
 					currCount = 1;
 				}
 			}
@@ -163,13 +164,13 @@ public class Connect4Controller {
 		Integer currId = -1;
 		for (int col = 0; col < COLUMNS; col++) {
 			for (int row = 0; row < ROWS; row++) {
-				if (model.getBoard().get(row).get(col).equals(currId)) {
+				if (model.getBoard().get(col).get(row).equals(currId)) {
 					currCount++;
 					if (currCount == WINNING_COUNT) {
 						return true;
 					}
 				} else {
-					currId = model.getBoard().get(row).get(col);
+					currId = model.getBoard().get(col).get(row);
 					currCount = 1;
 				}
 			}
