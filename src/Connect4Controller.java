@@ -27,7 +27,7 @@ public class Connect4Controller {
 		// Query the Model to see if there is open space in requested column
 		List<List<Integer>> board = model.getBoard();
 		int lastIdx = board.get(column).size();
-		if (board.get(0).get(lastIdx) != null) {  // should be last index - 1
+		if (board.get(0).get(lastIdx - 1) != null) {
 			return true;
 		}
 		return false;
