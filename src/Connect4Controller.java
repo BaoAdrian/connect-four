@@ -125,10 +125,16 @@ public class Connect4Controller {
 		return false;
 	}
 	
-	// Checks rows for a winner
+	/**
+	 * Searches all rows on the existing board to see 
+	 * if a winner exists. Returns true if so, otherwise
+	 * return false
+	 * 
+	 * @return boolean result of the row-search on the board
+	 */
 	private boolean checkRows() {
 		int currCount = 0;
-		Integer currId = null;
+		Integer currId = -1;
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLUMNS; col++) {
 				if (model.getBoard().get(row).get(col).equals(currId)) {
@@ -145,10 +151,16 @@ public class Connect4Controller {
 		return false;
 	}
 	
-	// Checks cols for a winner
+	/**
+	 * Searches all columns on the existing board to see 
+	 * if a winner exists. Returns true if so, otherwise
+	 * return false
+	 * 
+	 * @return boolean result of the column-search on the board
+	 */
 	private boolean checkCols() {
 		int currCount = 0;
-		Integer currId = null;
+		Integer currId = -1;
 		for (int col = 0; col < COLUMNS; col++) {
 			for (int row = 0; row < ROWS; row++) {
 				if (model.getBoard().get(row).get(col).equals(currId)) {
@@ -166,35 +178,125 @@ public class Connect4Controller {
 		return false;
 	}
 
-	// Checks diagonals for a winner
+	/**
+	 * Searches all diagonals on the existing board to see 
+	 * if a winner exists. Returns true if so, otherwise
+	 * return false
+	 * 
+	 * @return boolean result of the diagonal-search on the board
+	 */
 	private boolean checkDiagonals() {
 		
 		// Two-stage checking
 		// From lower-left -> upper-right
 		// From upper-left -> lower-right
 		
-		// lower-left -> upper-right
-		/*
-		 * [0][2]
-		 * [0][1]
-		 * [0][0]
-		 * [1][0]
-		 * [2][0]
-		 * [3][0]
-		 */
+		// Checking lower-left -> upper-right
+		for (int row = 0; row < ROWS; row++) {
+			if (model.getBoard().get(row).get(0) == null) {
+				continue;
+			}
+			if (checkRightDiagonals(row, 0)) {
+				return true;
+			}
+		}
+		
+		for (int col = 0; col < COLUMNS; col++) {
+			if (model.getBoard().get(0).get(col) == null) {
+				continue;
+			}
+			if (checkRightDiagonals(0, col)) {
+				return true;
+			}
+		}		
 		
 		
+		// Checking lower-right -> upper-left
+		for (int row = 0; row < ROWS; row++) {
+			if (model.getBoard().get(row).get(COLUMNS - 1) == null) {
+				continue;
+			}
+			if (checkLeftDiagonals(row, COLUMNS - 1)) {
+				return true;
+			}
+		}
 		
-		// upper-left -> lower-right
-		/*
-		 * [0][3]
-		 * [0][4]
-		 * [0][5]
-		 * [0][6]
-		 * [1][6]
-		 * [2][6]
-		 * [3][6]
-		 */
+		for (int col = 6; col >= 0; col--) {
+			if (model.getBoard().get(0).get(col) == null) {
+				continue;
+			}
+			if (checkLeftDiagonals(0, col)) {
+				return true;
+			}
+		}	
+		
+		return false;
+	}
+
+	/**
+	 * Checks all right-directed diagonals on the board to 
+	 * determine if a winner exists
+	 * 
+	 * Starting from the given row/col, traverse the existing
+	 * board to see if a winner exists on any right-directed
+	 * diagonal (i.e. row++ && col++ increments)
+	 * 
+	 * @param row Starting row
+	 * @param col Starting column
+	 * @return boolean result of right-directed diagonal check
+	 */
+	private boolean checkRightDiagonals(int row, int col) {
+		int currCount = 0;
+		Integer currId = -1;
+		
+		// Starting from board[row][col], increment both until a bound is hit
+		while (row < ROWS && col < COLUMNS) {
+			if (model.getBoard().get(row).get(col).equals(currId)) {
+				currCount++;
+				if (currCount == WINNING_COUNT) {
+					return true;
+				}
+			} else {
+				currId = model.getBoard().get(row).get(col);
+				currCount = 1;
+			}
+			row++;
+			col++;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Checks all left-directed diagonals on the board to 
+	 * determine if a winner exists
+	 * 
+	 * Starting from the given row/col, traverse the existing
+	 * board to see if a winner exists on any left-directed
+	 * diagonal (i.e. row-- && col-- increments)
+	 * 
+	 * @param row Starting row
+	 * @param col Starting column
+	 * @return boolean result of left-directed diagonal check
+	 */
+	public boolean checkLeftDiagonals(int row, int col) {
+		int currCount = 0;
+		Integer currId = -1;
+		
+		// Starting from board[row][col], increment both until a bound is hit
+		while (row >= 0 && col >= 0) {
+			if (model.getBoard().get(row).get(col).equals(currId)) {
+				currCount++;
+				if (currCount == WINNING_COUNT) {
+					return true;
+				}
+			} else {
+				currId = model.getBoard().get(row).get(col);
+				currCount = 1;
+			}
+			row--;
+			col--;
+		}
 		
 		return false;
 	}
