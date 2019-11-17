@@ -213,7 +213,6 @@ public class Connect4Controller {
 			int currCount = 0;
 			for (int row = 0; row < ROWS; row++) {
 				Integer id = model.getBoard().get(col).get(row);
-				System.out.println(currId + " vs " + id);
 				if (id == currId) {
 					currCount++;
 					if (currCount == WINNING_COUNT) {
