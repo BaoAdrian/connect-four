@@ -63,6 +63,8 @@ public class Connect4View extends Application implements java.util.Observer {
 		// Add new game functionality
 		newGameItem.setOnAction((e) -> {
 			createGridPane();
+			// Add NetworkSetup call
+			Connect4NetworkSetup dialog = new Connect4NetworkSetup();
 		});
 		fileMenu.getItems().add(newGameItem);
 		
