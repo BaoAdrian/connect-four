@@ -24,6 +24,13 @@ public class Connect4NetworkSetup extends Stage {
 		setupNetworkDialog();
 	}
 	
+	/**
+	 * Generates the Network Setup dialog box
+	 * 
+	 * Sets up the formatted dialog box to retrieve
+	 * the host/port/role information for the game and
+	 * handles it accordingly.
+	 */
 	public void setupNetworkDialog() {
 		this.stage = new Stage();
 		stage.setTitle("Network Setup");
@@ -84,18 +91,26 @@ public class Connect4NetworkSetup extends Stage {
 
 		});
 		
+		// Cancel button simply closes the dialog box
 		cancelBtn.setOnAction( e -> {
 			stage.close();
 		});
-		
-		vbox.getChildren().addAll(createHBox, playAsHBox, networkHBox, buttonBox);
-		
+
+		vbox.getChildren().addAll(createHBox, playAsHBox, networkHBox, buttonBox);		
 		Scene scene = new Scene(vbox);
 		stage.setScene(scene);
-		
 		stage.showAndWait();
 	}
 	
+	/**
+	 * Generates an HBox consisting of a Label and two CheckBox
+	 * objects with given strings. 
+	 * 
+	 * @param labelText	String to be set as the Label's text
+	 * @param leftBoxText String to be set as the CheckBox's text
+	 * @param rightBoxText String to be set as the CheckBox's text
+	 * @return Generated HBox object with the Label/CheckBox Objects
+	 */
 	public HBox generateHBox(String labelText, String leftBoxText, String rightBoxText) {
 		HBox hbox = new HBox(20);
 		Label label = new Label(labelText);
@@ -134,11 +149,17 @@ public class Connect4NetworkSetup extends Stage {
 		});
 		
 		leftBox.setSelected(true);
-		
 		hbox.getChildren().addAll(label, leftBox, rightBox);
 		return hbox;
 	}
 	
+	/**
+	 * Generates HBox containing the TextFields for 
+	 * Networking Information. Retrieves the server/host &
+	 * the port number from the user to setup Server/Client.
+	 * 
+	 * @return HBox containing Label/TextField pairs for Host/Port
+	 */
 	public HBox generateNetworkHBox() {
 		HBox hbox = new HBox(10);
 		Label serverLabel = new Label("Server");
@@ -156,18 +177,38 @@ public class Connect4NetworkSetup extends Stage {
 		return hbox;
 	}
 	
+	/**
+	 * Public Accessor for hostInfo
+	 * 
+	 * @return String value of hostInfo
+	 */
 	public String getHost() {
 		return this.hostInfo;
 	}
 	
+	/**
+	 * Public Accessor for portInfo
+	 *
+	 * @return String value of portInfo
+	 */
 	public int getPort() {
 		return this.portInfo;
 	}
 	
+	/**
+	 * Public Accessor for networkingRole
+	 * 
+	 * @return String value of networkingRole
+	 */
 	public String getNetworkingRole() {
 		return this.networkingRole;
 	}
 	
+	/**
+	 * Public Accessor for playerRole
+	 * 
+	 * @return String value of playerRole
+	 */
 	public String getPlayerRole() {
 		return this.playerRole;
 	}
