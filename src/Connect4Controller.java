@@ -31,7 +31,7 @@ public class Connect4Controller {
 		
 		// Network role is server, start server.
 		if (isServer) {
-			server = new Connect4Server(port);
+			server = new Connect4Server(port, this);
 			GUIDisabled = false;
 		} else {
 			client = new Connect4Client(host, port);
@@ -45,6 +45,14 @@ public class Connect4Controller {
 	
 	public boolean isGUIDisabled() {
 		return GUIDisabled;
+	}
+	
+	public void disableGUI() {
+		GUIDisabled = true;
+	}
+	
+	public void enableGUI() {
+		GUIDisabled = false;
 	}
 	
 	/**
