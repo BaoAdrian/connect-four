@@ -100,6 +100,15 @@ public class Connect4Test {
 	}
 	
 	@Test
+	public void testEndGame() {
+		List<List<Integer>> board = buildBoard(Connect4MoveMessage.RED);
+		Connect4Controller controller = new Connect4Controller(board);
+		
+		assertTrue(controller.checkIfGameOver());
+		controller.declareWinner();
+	}
+	
+	@Test
 	public void testComputerTurn() {
 		List<List<Integer>> board = buildBoard(null);
 		Connect4Controller controller = new Connect4Controller(board);

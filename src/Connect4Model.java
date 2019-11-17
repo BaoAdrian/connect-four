@@ -59,14 +59,6 @@ public class Connect4Model extends java.util.Observable {
 	}
 	
 	/**
-	 * Public Accessor method for isOver
-	 * @return Boolean isOver attribute
-	 */
-	public boolean isOver() {
-		return isOver;
-	}
-	
-	/**
 	 * Performs an update to the isOver flag and notifies
 	 * all observers of the change in game state so that 
 	 * the Observers can update accordingly.
