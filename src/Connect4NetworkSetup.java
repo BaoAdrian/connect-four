@@ -19,8 +19,10 @@ public class Connect4NetworkSetup extends Stage {
 	private int portInfo;
 	private String networkingRole; // Client vs. Server
 	private String playerRole; // Human vs. Computer
+	private boolean isCancelled;
 	
 	public Connect4NetworkSetup() {
+		this.isCancelled = false;
 		setupNetworkDialog();
 	}
 	
@@ -95,6 +97,7 @@ public class Connect4NetworkSetup extends Stage {
 		
 		// Cancel button simply closes the dialog box
 		cancelBtn.setOnAction( e -> {
+			isCancelled = true;
 			stage.close();
 		});
 
@@ -169,6 +172,10 @@ public class Connect4NetworkSetup extends Stage {
 		Label portLabel = new Label("Port");
 		TextField portTF = new TextField();
 		
+		// Set Defaults
+		serverTF.setText("localhost");
+		portTF.setText("4000");
+		
 		// HBox Formatting
 		hbox.setPrefWidth(450);
 		hbox.setPrefHeight(30);
@@ -213,6 +220,15 @@ public class Connect4NetworkSetup extends Stage {
 	 */
 	public String getPlayerRole() {
 		return this.playerRole;
+	}
+	
+	/**
+	 * Public Accessor for isCancelled
+	 * 
+	 * @return String value of isCancelled
+	 */
+	public boolean isCancelled() {
+		return this.isCancelled;
 	}
 	
 

@@ -69,14 +69,16 @@ public class Connect4View extends Application implements java.util.Observer {
 			createGridPane();
 			// Add NetworkSetup call
 			Connect4NetworkSetup dialog = new Connect4NetworkSetup();
-			String networkingRole = dialog.getNetworkingRole();
-			String playerRole = dialog.getPlayerRole();
-			String host = dialog.getHost();
-			int port = dialog.getPort();
 			
-			controller.createGame(networkingRole.equals("server"), playerRole.equals("human"), host, port);
-			
-			gameExists = true;
+			if (!dialog.isCancelled()) {
+				String networkingRole = dialog.getNetworkingRole();
+				String playerRole = dialog.getPlayerRole();
+				String host = dialog.getHost();
+				int port = dialog.getPort();
+				
+				controller.createGame(networkingRole.equals("server"), playerRole.equals("human"), host, port);
+				gameExists = true;
+			}
 		});
 		fileMenu.getItems().add(newGameItem);
 		
