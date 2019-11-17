@@ -12,9 +12,31 @@ public class Connect4Controller {
 	
 	//Fields
 	private boolean isServer;
+	private boolean isHuman;
+	private Connect4Server server;
+	private Connect4Client client;
+	private boolean GUIDisabled;
 	
 	public Connect4Controller() {
 		this.model = new Connect4Model();
+	}
+	
+	public void createGame(boolean isServer, boolean isHuman, String host, int port) {
+		this.isServer = isServer;
+		this.isHuman = isHuman;
+		
+		// Network role is server, start server.
+		if (isServer) {
+			server = new Connect4Server(port);
+			GUIDisabled = false;
+		} else {
+			client = new Connect4Client(host, port);
+			GUIDisabled = true;
+		}
+	}
+	
+	public boolean isGUIDisabled() {
+		return GUIDisabled;
 	}
 	
 	/**

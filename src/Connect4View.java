@@ -65,6 +65,12 @@ public class Connect4View extends Application implements java.util.Observer {
 			createGridPane();
 			// Add NetworkSetup call
 			Connect4NetworkSetup dialog = new Connect4NetworkSetup();
+			String networkingRole = dialog.getNetworkingRole();
+			String playerRole = dialog.getPlayerRole();
+			String host = dialog.getHost();
+			int port = dialog.getPort();
+			
+			controller.createGame(networkingRole.equals("server"), playerRole.equals("human"), host, port);
 		});
 		fileMenu.getItems().add(newGameItem);
 		
@@ -85,7 +91,7 @@ public class Connect4View extends Application implements java.util.Observer {
 		gridPane.setStyle("-fx-background-color: #0000FF;");
 		gridPane.setHgap(DEFAULT_GAP);
 		gridPane.setVgap(DEFAULT_GAP);
-		gridPane.setPadding(new Insets(DEFAULT_GAP,DEFAULT_GAP,DEFAULT_GAP,DEFAULT_GAP));
+		gridPane.setPadding(new Insets(DEFAULT_GAP, DEFAULT_GAP, DEFAULT_GAP, DEFAULT_GAP));
 		
 		// Set event for gridPane
 		gridPane.setOnMouseClicked( e -> {
