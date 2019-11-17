@@ -113,7 +113,6 @@ public class Connect4View extends Application implements java.util.Observer {
 		
 		// Handler for GridPane
 		gridPane.setOnMouseClicked( e -> {
-			System.out.println("here");
 			// Calculate selected column based on event location
 			int targetColumn;
 			int xPos = (int)e.getX();
@@ -150,13 +149,18 @@ public class Connect4View extends Application implements java.util.Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("Changes have been made");
+		
+		
+		
 		if (arg instanceof int[]) {
+			int rowPlacement = Connect4Controller.ROWS - ((int[])arg)[1] - 1;
+			int colPlacement = ((int[])arg)[0];
+			
 			ObservableList<Node> children = gridPane.getChildren();
 			for (Node child : children) {
 				// If matching row,col -> Update with corresponding color
-				if (GridPane.getRowIndex(child) == ((int[])arg)[0] 
-						&& GridPane.getColumnIndex(child) == ((int[])arg)[1]) {
+				if (GridPane.getRowIndex(child) == rowPlacement 
+						&& GridPane.getColumnIndex(child) == colPlacement) {
 					if (((int[])arg)[2] == Connect4MoveMessage.YELLOW) {
 						((Circle)child).setFill(Color.YELLOW);
 					} else {

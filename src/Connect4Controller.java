@@ -58,8 +58,6 @@ public class Connect4Controller {
 	 */
 	public void humanTurn(int col) {
 		if (hasOpenSlot(col)) {
-			System.out.println("Here");
-			System.out.println(model.getBoard());
 			placeInRow(col);
 		} else {
 			// Invalid slot chosen, notify model of erroneous
