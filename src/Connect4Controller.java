@@ -34,6 +34,9 @@ public class Connect4Controller {
 			GUIDisabled = true;
 		}
 		
+		if (!this.isHuman) {
+			GUIDisabled = true;
+		}
 	}
 	
 	public boolean isGUIDisabled() {
