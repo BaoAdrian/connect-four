@@ -5,13 +5,16 @@ public class Connect4Model extends java.util.Observable {
 	// In Board, inner list represents column. Elements in list represent rows.
 	// [0][0] represents lower left position.
 	private List<List<Integer>> board;
+	private boolean isOver;
 	
 	public Connect4Model() {
 		initializeBoard();
+		isOver = false;
 	}
 	
 	public Connect4Model(List<List<Integer>> board) {
 		this.board = board;
+		isOver = false;
 	}
 	
 	/**
@@ -53,5 +56,15 @@ public class Connect4Model extends java.util.Observable {
 	 */
 	public List<List<Integer>> getBoard() {
 		return board;
+	}
+	
+	public boolean isOver() {
+		return isOver;
+	}
+	
+	public void updateToGameOver(Integer winningId) {
+		isOver = true;
+		setChanged();
+		notifyObservers(winningId);
 	}
 }

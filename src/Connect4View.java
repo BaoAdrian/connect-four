@@ -10,9 +10,11 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -166,6 +168,27 @@ public class Connect4View extends Application implements java.util.Observer {
 					}
 				}
 			}
+			
+			// After each update, check if game is over
+			if (controller.checkIfGameOver()) {
+				controller.declareWinner();
+			}
+			
+		} else if (arg instanceof Integer) {
+			gridPane.setDisable(true);
+			
+			// Holds logic for detecting when game is over
+			if (((Integer)arg) != -1) {
+				Alert winningAlert = new Alert(AlertType.INFORMATION);
+				winningAlert.setContentText("You Win!");
+				winningAlert.showAndWait();
+			} else {
+				Alert losingAlert = new Alert(AlertType.INFORMATION);
+				losingAlert.setContentText("You Lose!");
+				losingAlert.showAndWait();
+			}
 		}
+		
+		
 	}
 }

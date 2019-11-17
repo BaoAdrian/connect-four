@@ -161,24 +161,50 @@ public class Connect4Controller {
 	
 	/**
 	 * Checks state of the board to see if game is over
-	 * @return
+	 * @return boolean result on if the game is over
 	 */
 	public boolean checkIfGameOver() {
 		List<List<Integer>> board = model.getBoard();
-		if (isBoardFull() || checkRows() || checkCols() || checkDiagonals()) {
+		if (isBoardFull() || checkRows() != -1 || 
+				checkCols() != -1 || checkDiagonals() != -1) {
 			return true;
 		}
 		return false;
 	}
 	
 	/**
-	 * Searches all rows on the existing board to see 
-	 * if a winner exists. Returns true if so, otherwise
-	 * return false
+	 * Declares the winner of the game
 	 * 
-	 * @return boolean result of the row-search on the board
+	 * Finds the winning player and passes the information 
+	 * along to the model to update the View with the winning
+	 * and losing Alerts.
 	 */
-	private boolean checkRows() {
+	public void declareWinner() {
+		Integer winningId = -1;
+		winningId = checkRows();
+		if (winningId != -1) {
+			model.updateToGameOver(winningId);
+		}
+		
+		winningId = checkCols();
+		if (winningId != -1) {
+			model.updateToGameOver(winningId);
+		}
+		
+		winningId = checkDiagonals();
+		if (winningId != -1) {
+			model.updateToGameOver(winningId);
+		}
+	}
+	
+	/**
+	 * Searches all rows on the existing board to see 
+	 * if a winner exists. Returns winnnigId if one exists,
+	 * -1 otherwise.
+	 * 
+	 * @return Integer id of the winning id, -1 if none
+	 */
+	private Integer checkRows() {
 		Integer currId = -1;
 		for (int row = 0; row < ROWS; row++) {
 			int currCount = 0;
@@ -187,7 +213,7 @@ public class Connect4Controller {
 				if (id == currId) {
 					currCount++;
 					if (currCount == WINNING_COUNT) {
-						return true;
+						return currId;
 					}
 				} else {
 					if (id != null) {
@@ -197,17 +223,17 @@ public class Connect4Controller {
 				}
 			}
 		}
-		return false;
+		return -1;
 	}
 	
 	/**
 	 * Searches all columns on the existing board to see 
-	 * if a winner exists. Returns true if so, otherwise
-	 * return false
+	 * if a winner exists. Returns winnnigId if one exists,
+	 * -1 otherwise.
 	 * 
-	 * @return boolean result of the column-search on the board
+	 * @return Integer id of the winning id, -1 if none
 	 */
-	private boolean checkCols() {
+	private Integer checkCols() {
 		Integer currId = -1;
 		for (int col = 0; col < COLUMNS; col++) {
 			int currCount = 0;
@@ -216,7 +242,7 @@ public class Connect4Controller {
 				if (id == currId) {
 					currCount++;
 					if (currCount == WINNING_COUNT) {
-						return true;
+						return currId;
 					}
 				} else {
 					if (id != null) {
@@ -226,25 +252,26 @@ public class Connect4Controller {
 				}
 			}
 		}
-		return false;
+		return -1;
 	}
 
 	/**
 	 * Searches all diagonals on the existing board to see 
-	 * if a winner exists. Returns true if so, otherwise
-	 * return false
+	 * if a winner exists. Returns winnnigId if one exists,
+	 * -1 otherwise.
 	 * 
-	 * @return boolean result of the diagonal-search on the board
+	 * @return Integer id of the winning id, -1 if none
 	 */
-	private boolean checkDiagonals() {
+	private Integer checkDiagonals() {
 		
 		// Check all rows in column 0
 		for (int row = 0; row < ROWS; row++) {
 			if (model.getBoard().get(0).get(row) == null) {
 				continue;
 			}
-			if (checkRightDiagonals(0, row)) {
-				return true;
+			Integer winningId = checkRightDiagonals(0, row);
+			if (winningId != -1) {
+				return winningId;
 			}
 		}
 		
@@ -253,8 +280,9 @@ public class Connect4Controller {
 			if (model.getBoard().get(COLUMNS - 1).get(row) == null) {
 				continue;
 			}
-			if (checkLeftDiagonals(COLUMNS - 1, row)) {
-				return true;
+			Integer winningId = checkLeftDiagonals(COLUMNS - 1, row);
+			if (winningId != -1) {
+				return winningId;
 			}
 		}
 		
@@ -263,14 +291,16 @@ public class Connect4Controller {
 			if (model.getBoard().get(col).get(0) == null) {
 				continue;
 			}
-			if (checkRightDiagonals(col, 0)) {
-				return true;
+			Integer winningId = checkRightDiagonals(col, 0); 
+			if (winningId != -1) {
+				return winningId;
 			}
-			if (checkLeftDiagonals(col, 0)) {
-				return true;
+			winningId = checkLeftDiagonals(col, 0); 
+			if (winningId != -1) {
+				return winningId;
 			}
 		}		
-		return false;
+		return -1;
 	}
 
 	/**
@@ -283,9 +313,9 @@ public class Connect4Controller {
 	 * 
 	 * @param row Starting row
 	 * @param col Starting column
-	 * @return boolean result of right-directed diagonal check
+	 * @return Integer id of the winning id, -1 if none
 	 */
-	private boolean checkRightDiagonals(int col, int row) {
+	private Integer checkRightDiagonals(int col, int row) {
 		int currCount = 0;
 		Integer currId = -1;
 		
@@ -295,7 +325,7 @@ public class Connect4Controller {
 			if (id == currId) {
 				currCount++;
 				if (currCount == WINNING_COUNT) {
-					return true;
+					return currId;
 				}
 			} else {
 				if (id != null) {
@@ -306,7 +336,7 @@ public class Connect4Controller {
 			row++;
 			col++;
 		}
-		return false;
+		return -1;
 	}
 	
 	/**
@@ -319,9 +349,9 @@ public class Connect4Controller {
 	 * 
 	 * @param row Starting row
 	 * @param col Starting column
-	 * @return boolean result of left-directed diagonal check
+	 * @return Integer id of the winning id, -1 if none
 	 */
-	private boolean checkLeftDiagonals(int col, int row) {
+	private Integer checkLeftDiagonals(int col, int row) {
 		int currCount = 0;
 		Integer currId = -1;
 		
@@ -331,7 +361,7 @@ public class Connect4Controller {
 			if (id == currId) {
 				currCount++;
 				if (currCount == WINNING_COUNT) {
-					return true;
+					return currId;
 				}
 			} else {
 				if (id != null) {
@@ -342,6 +372,6 @@ public class Connect4Controller {
 			row++;
 			col--;
 		}
-		return false;
+		return -1;
 	}
 }
