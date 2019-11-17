@@ -52,7 +52,7 @@ public class Connect4Controller {
 	 * @param column Requested column to be validated
 	 * @return boolean result on the validity check of move
 	 */
-	public boolean isMoveValid(int column) {
+	public boolean hasOpenSlot(int column) {
 		// Query the Model to see if there is open space in requested column
 		List<List<Integer>> board = model.getBoard();
 		return board.get(column).get(ROWS - 1) == null;
@@ -68,10 +68,25 @@ public class Connect4Controller {
 	 * @param col Column player has requested to play in
 	 */
 	public void humanTurn(int col) {
-		if (isMoveValid(col)) {
+		if (hasOpenSlot(col)) {
+			Connect4MoveMessage  message;
+			List<List<Integer>> board = model.getBoard();
+			List<Integer> column = board.get(col);
+			int index = 0;
+			while (column.get(index) != null) {
+				index ++;
+			}
+			if (isServer) {
+				message = new Connect4MoveMessage(index, col, Connect4MoveMessage.YELLOW);
+				board.get(col).set(index, Connect4MoveMessage.YELLOW);
+			} else {
+				message = new Connect4MoveMessage(index, col, Connect4MoveMessage.RED);
+				board.get(col).set(index, Connect4MoveMessage.RED);
+			}
 			
 		}
 	}
+	
 	
 	/**
 	 * Executes a move on behalf of the computer
@@ -118,25 +133,7 @@ public class Connect4Controller {
 		return true;
 	}
 	
-	/**
-	 * Checks a given column for an open slot
-	 * 
-	 * Starts at the top row of the board and works down
-	 * towards the bottom search for an open slot (slot == null)
-	 * and returns true if one exists. Otherwise, that column 
-	 * is full and function returns false
-	 * 
-	 * @param column Requested column to query
-	 * @return boolean result of the column query
-	 */
-	private boolean hasOpenSlot(int column) {
-		for (int row = ROWS - 1; row >= 0; row++) {
-			if (model.getBoard().get(column) == null) {
-				return true;
-			}
-		}
-		return false;
-	}
+
 	
 	/**
 	 * Checks state of the board to see if game is over

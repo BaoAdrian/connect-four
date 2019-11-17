@@ -114,6 +114,7 @@ public class Connect4View extends Application implements java.util.Observer {
 			
 			if (gameExists && !controller.isGUIDisabled()) {
 				// Pass to model the column requested by user
+				controller.humanTurn(targetColumn);
 			}
 		});
 		
