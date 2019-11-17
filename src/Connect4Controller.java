@@ -239,11 +239,7 @@ public class Connect4Controller {
 	 */
 	public boolean checkDiagonals() {
 		
-		// Two-stage checking
-		// From lower-left -> upper-right
-		// From upper-left -> lower-right
-		
-		// Checking lower-left -> upper-right
+		// Check all rows in column 0
 		for (int row = 0; row < ROWS; row++) {
 			if (model.getBoard().get(0).get(row) == null) {
 				continue;
@@ -253,17 +249,7 @@ public class Connect4Controller {
 			}
 		}
 		
-		for (int col = 0; col < COLUMNS; col++) {
-			if (model.getBoard().get(col).get(0) == null) {
-				continue;
-			}
-			if (checkRightDiagonals(col, 0)) {
-				return true;
-			}
-		}		
-		
-		
-		// Checking lower-right -> upper-left
+		// Check all rows in column COLUMNS - 1
 		for (int row = 0; row < ROWS; row++) {
 			if (model.getBoard().get(COLUMNS - 1).get(row) == null) {
 				continue;
@@ -273,14 +259,21 @@ public class Connect4Controller {
 			}
 		}
 		
+		// Check both left and right diagonals from bottom of board
 		for (int col = 0; col < COLUMNS; col++) {
 			if (model.getBoard().get(col).get(0) == null) {
 				continue;
 			}
+			if (checkRightDiagonals(col, 0)) {
+				return true;
+			}
 			if (checkLeftDiagonals(col, 0)) {
 				return true;
 			}
-		}	
+		}		
+		
+		
+		
 		
 		return false;
 	}
@@ -297,20 +290,23 @@ public class Connect4Controller {
 	 * @param col Starting column
 	 * @return boolean result of right-directed diagonal check
 	 */
-	public boolean checkRightDiagonals(int row, int col) {
+	public boolean checkRightDiagonals(int col, int row) {
 		int currCount = 0;
 		Integer currId = -1;
 		
 		// Starting from board[row][col], increment both until a bound is hit
 		while (row < ROWS && col < COLUMNS) {
-			if (model.getBoard().get(row).get(col).equals(currId)) {
+			Integer id = model.getBoard().get(col).get(row);
+			if (id == currId) {
 				currCount++;
 				if (currCount == WINNING_COUNT) {
 					return true;
 				}
 			} else {
-				currId = model.getBoard().get(row).get(col);
-				currCount = 1;
+				if (id != null) {
+					currId = model.getBoard().get(col).get(row);
+					currCount = 1;
+				}
 			}
 			row++;
 			col++;
@@ -331,22 +327,25 @@ public class Connect4Controller {
 	 * @param col Starting column
 	 * @return boolean result of left-directed diagonal check
 	 */
-	public boolean checkLeftDiagonals(int row, int col) {
+	public boolean checkLeftDiagonals(int col, int row) {
 		int currCount = 0;
 		Integer currId = -1;
 		
 		// Starting from board[row][col], increment both until a bound is hit
-		while (row >= 0 && col >= 0) {
-			if (model.getBoard().get(row).get(col).equals(currId)) {
+		while (row < ROWS && col >= 0) {
+			Integer id = model.getBoard().get(col).get(row);
+			if (id == currId) {
 				currCount++;
 				if (currCount == WINNING_COUNT) {
 					return true;
 				}
 			} else {
-				currId = model.getBoard().get(row).get(col);
-				currCount = 1;
+				if (id != null) {
+					currId = model.getBoard().get(col).get(row);
+					currCount = 1;
+				}
 			}
-			row--;
+			row++;
 			col--;
 		}
 		
