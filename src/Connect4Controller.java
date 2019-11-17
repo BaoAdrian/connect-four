@@ -55,11 +55,7 @@ public class Connect4Controller {
 	public boolean isMoveValid(int column) {
 		// Query the Model to see if there is open space in requested column
 		List<List<Integer>> board = model.getBoard();
-		int lastIdx = board.get(column).size();
-		if (board.get(0).get(lastIdx - 1) != null) {
-			return true;
-		}
-		return false;
+		return board.get(column).get(ROWS - 1) == null;
 	}
 	
 	/**
@@ -72,7 +68,9 @@ public class Connect4Controller {
 	 * @param col Column player has requested to play in
 	 */
 	public void humanTurn(int col) {
-		
+		if (isMoveValid(col)) {
+			
+		}
 	}
 	
 	/**
