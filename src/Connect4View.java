@@ -124,10 +124,10 @@ public class Connect4View extends Application implements java.util.Observer {
 				targetColumn = (int)((xPos - 4) / INNER_RANGE);
 			}
 			
-//			if (gameExists && !controller.isGUIDisabled()) {
-//				// Pass to model the column requested by user
-//				controller.humanTurn(targetColumn);
-//			}
+			if (gameExists && !controller.isGUIDisabled()) {
+				// Pass to model the column requested by user
+				controller.humanTurn(targetColumn);
+			}
 			controller.humanTurn(targetColumn);
 		});
 		
@@ -149,10 +149,8 @@ public class Connect4View extends Application implements java.util.Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		
-		
-		
 		if (arg instanceof int[]) {
+			// Pull adjusted placement onto GridPane
 			int rowPlacement = Connect4Controller.ROWS - ((int[])arg)[1] - 1;
 			int colPlacement = ((int[])arg)[0];
 			

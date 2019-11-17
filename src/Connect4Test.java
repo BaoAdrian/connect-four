@@ -111,7 +111,12 @@ public class Connect4Test {
 	
 	@Test
 	public void testHumanTurn() {
-		
+		List<List<Integer>> board = buildBoard(null);
+		Connect4Controller controller = new Connect4Controller(board);
+		// Place tokens (attempt extra placements) at column 0
+		for (int i = 0; i < 8; i++) {
+			controller.humanTurn(0);
+		}
 	}
 	
 	@Test
