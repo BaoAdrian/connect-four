@@ -30,12 +30,14 @@ public class Connect4View extends Application implements java.util.Observer {
 	private Stage primaryStage;
 	private GridPane gridPane;
 	private double sceneWidth;
+	private boolean gameExists;
 	
 	private Connect4Controller controller;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
+		gameExists = false;
 		controller = new Connect4Controller();
 		setupStage();
 		this.primaryStage.show();
@@ -71,6 +73,8 @@ public class Connect4View extends Application implements java.util.Observer {
 			int port = dialog.getPort();
 			
 			controller.createGame(networkingRole.equals("server"), playerRole.equals("human"), host, port);
+			
+			gameExists = true;
 		});
 		fileMenu.getItems().add(newGameItem);
 		
@@ -108,7 +112,9 @@ public class Connect4View extends Application implements java.util.Observer {
 				targetColumn = (int)((xPos - 4) / INNER_RANGE);
 			}
 			
-			// Pass to model the column requested by user
+			if (gameExists && !controller.isGUIDisabled()) {
+				// Pass to model the column requested by user
+			}
 		});
 		
 		// Initialize each cell with a WHITE Circle Object

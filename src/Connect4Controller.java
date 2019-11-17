@@ -11,7 +11,7 @@ public class Connect4Controller {
 	private static final int WINNING_COUNT = 4;
 	
 	//Fields
-	private boolean isServer;
+	private boolean isServer; // Server is ALWAYS yellow. || Client is ALWAYS red
 	private boolean isHuman;
 	private Connect4Server server;
 	private Connect4Client client;
