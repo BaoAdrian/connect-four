@@ -89,7 +89,9 @@ public class Connect4Controller {
 	 */
 	public void computerTurn() {		
 		int col = getValidColumn(); // RNG Logic
-		placeInRow(col);
+		if (col != -1) {
+			placeInRow(col);
+		}
 	}
 	
 	/**
