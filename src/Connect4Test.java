@@ -9,7 +9,7 @@ public class Connect4Test {
 	
 	@Test
 	public void testModelInitialization() {
-		Connect4Controller controller = new Connect4Controller();
+		Connect4Controller controller = new Connect4Controller(new Connect4Model());
 	}
 	
 	@Test
