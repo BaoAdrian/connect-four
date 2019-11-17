@@ -69,24 +69,12 @@ public class Connect4Controller {
 	 */
 	public void humanTurn(int col) {
 		if (hasOpenSlot(col)) {
-			Connect4MoveMessage  message;
-			List<List<Integer>> board = model.getBoard();
-			List<Integer> column = board.get(col);
-			int row = 0;
-			while (column.get(row) != null) {
-				row ++;
-			}
-			if (isServer) {
-				message = new Connect4MoveMessage(row, col, Connect4MoveMessage.YELLOW);
-				model.updateBoard(col, row, Connect4MoveMessage.YELLOW);
-			} else {
-				message = new Connect4MoveMessage(row, col, Connect4MoveMessage.RED);
-				model.updateBoard(col, row, Connect4MoveMessage.RED);
-			}
-			
+			placeInRow(col);
+		} else {
+			// Invalid slot chosen, notify model of erroneous
+			// placement, pop modal
 		}
 	}
-	
 	
 	/**
 	 * Executes a move on behalf of the computer
@@ -95,11 +83,41 @@ public class Connect4Controller {
 	 * number that yields a VALID select and proceeds
 	 * to place a token at that position.
 	 */
-	public void computerTurn() {
-		int column = getValidColumn(); // RNG Logic
-		// model.placeMove(Player comp, column);
+	public void computerTurn() {		
+		int col = getValidColumn(); // RNG Logic
+		placeInRow(col);
 	}
 	
+	/**
+	 * Places a token in the next available slot inside
+	 * of the provided column. 
+	 * 
+	 * @param col Column to insert a token into
+	 */
+	public void placeInRow(int col) {
+		Connect4MoveMessage  message;
+		List<Integer> column = model.getBoard().get(col);
+		int row = 0;
+		while (column.get(row) != null) {
+			row ++;
+		}
+		
+		if (isServer) {
+			message = new Connect4MoveMessage(row, col, Connect4MoveMessage.YELLOW);
+			model.updateBoard(col, row, Connect4MoveMessage.YELLOW);
+		} else {
+			message = new Connect4MoveMessage(row, col, Connect4MoveMessage.RED);
+			model.updateBoard(col, row, Connect4MoveMessage.RED);
+		}
+	}
+	
+	/**
+	 * Retrieves a valid column for the computer to make
+	 * a valid selection. Returns the column index to be 
+	 * used for token insertion.
+	 * 
+	 * @return int index of valid column, -1 if none available
+	 */
 	private int getValidColumn() {
 		// Check if board is full, if so, return -1
 		if (isBoardFull()) {

@@ -145,10 +145,8 @@ public class Connect4View extends Application implements java.util.Observer {
 					} else {
 						((Circle)child).setFill(Color.RED);
 					}
-					
 				}
 			}
 		}
 	}
-
 }
