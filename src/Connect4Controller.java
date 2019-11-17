@@ -144,10 +144,10 @@ public class Connect4Controller {
 	 * 
 	 * @return boolean result of board checking
 	 */
-	private boolean isBoardFull() {
+	public boolean isBoardFull() {
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLUMNS; col++) {
-				if (model.getBoard().get(row).get(col) != null) {
+				if (model.getBoard().get(col).get(row) == null) {
 					return false;
 				}
 			}
