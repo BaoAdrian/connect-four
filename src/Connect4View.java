@@ -36,6 +36,10 @@ public class Connect4View extends Application implements java.util.Observer {
 	
 	private Connect4Controller controller;
 
+	/**
+	 * Method that initiates the Connect 4 Game
+	 * called when launching the program.
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
@@ -43,8 +47,6 @@ public class Connect4View extends Application implements java.util.Observer {
 		controller = new Connect4Controller();
 		setupStage();
 		this.primaryStage.show();
-		
-		// Grab size
 		this.sceneWidth = this.primaryStage.getWidth();
 	}
 	
@@ -93,18 +95,20 @@ public class Connect4View extends Application implements java.util.Observer {
 		
 	}
 	
+	/**
+	 * Sets up a GridPane object with the corresponding 
+	 * components and handlers.
+	 */
 	private void createGridPane() {
-		// Setup GridPane Object
 		gridPane = new GridPane();
 		gridPane.setStyle("-fx-background-color: #0000FF;");
 		gridPane.setHgap(DEFAULT_GAP);
 		gridPane.setVgap(DEFAULT_GAP);
 		gridPane.setPadding(new Insets(DEFAULT_GAP, DEFAULT_GAP, DEFAULT_GAP, DEFAULT_GAP));
 		
-		// Set event for gridPane
+		// Handler for GridPane
 		gridPane.setOnMouseClicked( e -> {
-			// Pixel calculations
-			
+			// Calculate selected column based on event location
 			int targetColumn;
 			int xPos = (int)e.getX();
 			if (xPos <= OUTER_RANGE) {
@@ -112,7 +116,6 @@ public class Connect4View extends Application implements java.util.Observer {
 			} else if (xPos >= sceneWidth - OUTER_RANGE) {
 				targetColumn = 6;
 			} else {
-				// 48 pixel range
 				targetColumn = (int)((xPos - 4) / INNER_RANGE);
 			}
 			
@@ -132,13 +135,19 @@ public class Connect4View extends Application implements java.util.Observer {
 		}
 	}
 
+	/**
+	 * Method called by the Observable to update the Observers
+	 * with the corresponding parameters. If an int[] is provided, 
+	 * parses the row,col coordinates to insert a token of a 
+	 * given color into the board.
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
 		System.out.println("Changes have been made");
 		if (arg instanceof int[]) {
 			ObservableList<Node> children = gridPane.getChildren();
 			for (Node child : children) {
+				// If matching row,col -> Update with corresponding color
 				if (GridPane.getRowIndex(child) == ((int[])arg)[0] 
 						&& GridPane.getColumnIndex(child) == ((int[])arg)[1]) {
 					if (((int[])arg)[2] == Connect4MoveMessage.YELLOW) {
