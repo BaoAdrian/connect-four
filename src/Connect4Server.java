@@ -5,9 +5,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Connect4Server {
-	// Class constants
-	public static final String DEFAULT_HOST = "localhost";
-	public static final int DEFAULT_PORT = 4000;
 	
 	// Fields
 	private ServerSocket server;
@@ -16,9 +13,9 @@ public class Connect4Server {
 	private ObjectInputStream input;
 	
 	// Constructor
-	public Connect4Server () {
+	public Connect4Server (int port) {
 		try {
-			server = new ServerSocket(DEFAULT_PORT);
+			server = new ServerSocket(port);
 			connection = server.accept();
 			output = new ObjectOutputStream(connection.getOutputStream());
 			input = new ObjectInputStream(connection.getInputStream());
@@ -26,6 +23,8 @@ public class Connect4Server {
 			e.printStackTrace();
 		}
 	}
+	
+	
 	
 	
 }
