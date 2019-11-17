@@ -11,19 +11,37 @@ public class Connect4Server {
 	private Socket connection;
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
+	private Connect4Controller controller;
 	
 	// Constructor
-	public Connect4Server (int port) {
+	public Connect4Server (int port, Connect4Controller controller) {
 		try {
+			this.controller = controller;
 			server = new ServerSocket(port);
-			connection = server.accept();
-			output = new ObjectOutputStream(connection.getOutputStream());
-			input = new ObjectInputStream(connection.getInputStream());
+			Thread connectionThread = new Thread(new RunnableConnection());
+			connectionThread.start();
+//			connection = server.accept();
+//			output = new ObjectOutputStream(connection.getOutputStream());
+//			input = new ObjectInputStream(connection.getInputStream());
 		} catch (IOException e){
 			e.printStackTrace();
 		}
 	}
 	
+	
+	private class RunnableConnection implements Runnable {
+
+		@Override
+		public void run() {
+			try {
+				connection = server.accept();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
 	
 	
 	
