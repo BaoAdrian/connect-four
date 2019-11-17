@@ -21,6 +21,10 @@ public class Connect4Controller {
 		this.model = new Connect4Model();
 	}
 	
+	public Connect4Controller(List<List<Integer>> board) {
+		this.model = new Connect4Model(board);
+	}
+	
 	public void createGame(boolean isServer, boolean isHuman, String host, int port) {
 		this.isServer = isServer;
 		this.isHuman = isHuman;
@@ -174,7 +178,7 @@ public class Connect4Controller {
 	 * 
 	 * @return boolean result of the row-search on the board
 	 */
-	private boolean checkRows() {
+	public boolean checkRows() {
 		Integer currId = -1;
 		for (int row = 0; row < ROWS; row++) {
 			int currCount = 0;
@@ -201,7 +205,7 @@ public class Connect4Controller {
 	 * 
 	 * @return boolean result of the column-search on the board
 	 */
-	private boolean checkCols() {
+	public boolean checkCols() {
 		int currCount = 0;
 		Integer currId = -1;
 		for (int col = 0; col < COLUMNS; col++) {

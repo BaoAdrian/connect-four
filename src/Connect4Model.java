@@ -6,9 +6,12 @@ public class Connect4Model extends java.util.Observable {
 	// [0][0] represents lower left position.
 	private List<List<Integer>> board;
 	
-	// Constructor
 	public Connect4Model() {
 		initializeBoard();
+	}
+	
+	public Connect4Model(List<List<Integer>> board) {
+		this.board = board;
 	}
 	
 	/**
