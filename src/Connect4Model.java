@@ -39,8 +39,9 @@ public class Connect4Model extends java.util.Observable {
 	 */
 	public void updateBoard(int col, int row, int color) {
 		board.get(col).set(row, color);
+		int parameters[] = {col, row, color};
 		setChanged();
-		notifyObservers();
+		notifyObservers(parameters);
 	}
 	
 	/**

@@ -6,7 +6,9 @@
 import java.util.Observable;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -132,6 +134,19 @@ public class Connect4View extends Application implements java.util.Observer {
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
 		System.out.println("Changes have been made");
+		if (arg instanceof int[]) {
+			ObservableList<Node> children = gridPane.getChildren();
+			for (Node child : children) {
+				if (GridPane.getRowIndex(child) == ((int[])arg)[0] && GridPane.getColumnIndex(child) == ((int[])arg)[1]) {
+					if (((int[])arg)[2] == Connect4MoveMessage.YELLOW) {
+						((Circle)child).setFill(Color.YELLOW);
+					} else {
+						((Circle)child).setFill(Color.RED);
+					}
+					
+				}
+			}
+		}
 	}
 
 }

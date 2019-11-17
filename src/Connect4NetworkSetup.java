@@ -88,6 +88,8 @@ public class Connect4NetworkSetup extends Stage {
 					}
 				}
 			}
+			
+			stage.close();
 
 		});
 		
