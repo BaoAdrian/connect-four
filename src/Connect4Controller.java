@@ -33,6 +33,7 @@ public class Connect4Controller {
 			client = new Connect4Client(host, port);
 			GUIDisabled = true;
 		}
+		
 	}
 	
 	public boolean isGUIDisabled() {
