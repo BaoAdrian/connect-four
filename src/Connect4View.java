@@ -139,7 +139,8 @@ public class Connect4View extends Application implements java.util.Observer {
 		if (arg instanceof int[]) {
 			ObservableList<Node> children = gridPane.getChildren();
 			for (Node child : children) {
-				if (GridPane.getRowIndex(child) == ((int[])arg)[0] && GridPane.getColumnIndex(child) == ((int[])arg)[1]) {
+				if (GridPane.getRowIndex(child) == ((int[])arg)[0] 
+						&& GridPane.getColumnIndex(child) == ((int[])arg)[1]) {
 					if (((int[])arg)[2] == Connect4MoveMessage.YELLOW) {
 						((Circle)child).setFill(Color.YELLOW);
 					} else {
