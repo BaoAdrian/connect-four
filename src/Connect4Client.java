@@ -9,12 +9,20 @@ public class Connect4Client {
 	private Socket server;
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
+	private String host;
+	private int port;
+	
+	// Constructor
+	public Connect4Client(String host, int port) {
+		this.host = host;
+		this.port = port;
+	}
 	
 	
 	// Returns true if a successful connection was established.
 	public boolean connect(){
 		try {
-			server = new Socket(Connect4Server.DEFAULT_HOST, Connect4Server.DEFAULT_PORT);
+			server = new Socket(host, port);
 			output = new ObjectOutputStream(server.getOutputStream());
 			input = new ObjectInputStream(server.getInputStream());
 			return true;
