@@ -15,6 +15,10 @@ import javafx.stage.Stage;
 public class Connect4NetworkSetup extends Stage {
 
 	private Stage stage;
+	private String hostInfo;
+	private int portInfo;
+	private String networkingRole; // Client vs. Server
+	private String playerRole; // Human vs. Computer
 	
 	public Connect4NetworkSetup() {
 		setupNetworkDialog();
@@ -43,25 +47,37 @@ public class Connect4NetworkSetup extends Stage {
 				if (node instanceof CheckBox) {
 					if (((CheckBox)node).isSelected()) {
 						if (((CheckBox) node).getText().equals("Server")) {
-							// Instantiate server 
-							// HERE
-							System.out.println("Instantiate Server");
+							this.networkingRole = "server";
+							System.out.println("Networking Role: " + this.networkingRole);
 						} else {
-							// Instantiate client 
-							// HERE
-							System.out.println("Instantiate Client");
+							this.networkingRole = "client";
+							System.out.println("Networking Role: " + this.networkingRole);
+						}
+					}
+				}
+			}
+			
+			for (Node node : playAsHBox.getChildren()) {
+				if (node instanceof CheckBox) {
+					if (((CheckBox)node).isSelected()) {
+						if (((CheckBox) node).getText().equals("Human")) {
+							this.playerRole = "human";
+							System.out.println("Player Role: " + this.playerRole);
+						} else {
+							this.playerRole = "computer";
+							System.out.println("Player Role: " + this.playerRole);
 						}
 					}
 				}
 			}
 					
-			boolean isFirstTF = true;
+			boolean isServerTF = true;
 			for (Node node : networkHBox.getChildren()) {
 				if (node instanceof TextField) {
-					if (isFirstTF) {
-						System.out.println("Server: " + ((TextField)node).getText());
+					if (isServerTF) {
+						this.hostInfo = ((TextField)node).getText();
 					} else {
-						System.out.println("Port: " + ((TextField)node).getText());
+						this.portInfo = Integer.valueOf(((TextField)node).getText());
 					}
 				}
 			}
@@ -138,6 +154,22 @@ public class Connect4NetworkSetup extends Stage {
 		hbox.getChildren().addAll(serverLabel, serverTF, portLabel, portTF);
 		
 		return hbox;
+	}
+	
+	public String getHost() {
+		return this.hostInfo;
+	}
+	
+	public int getPort() {
+		return this.portInfo;
+	}
+	
+	public String getNetworkingRole() {
+		return this.networkingRole;
+	}
+	
+	public String getPlayerRole() {
+		return this.playerRole;
 	}
 	
 
