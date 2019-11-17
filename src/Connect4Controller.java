@@ -48,21 +48,6 @@ public class Connect4Controller {
 	}
 	
 	/**
-	 * Checks the given column to see if its a valid move
-	 * 
-	 * Retrieves the board state and queries to see if the
-	 * requested column is valid
-	 * 
-	 * @param column Requested column to be validated
-	 * @return boolean result on the validity check of move
-	 */
-	public boolean hasOpenSlot(int column) {
-		// Query the Model to see if there is open space in requested column
-		List<List<Integer>> board = model.getBoard();
-		return board.get(column).get(ROWS - 1) == null;
-	}
-	
-	/**
 	 * Executes a requested move on behalf of the human
 	 * 
 	 * Accepts a column requested to place a token and 
@@ -95,12 +80,27 @@ public class Connect4Controller {
 	}
 	
 	/**
+	 * Checks the given column to see if its a valid move
+	 * 
+	 * Retrieves the board state and queries to see if the
+	 * requested column is valid
+	 * 
+	 * @param column Requested column to be validated
+	 * @return boolean result on the validity check of move
+	 */
+	private boolean hasOpenSlot(int column) {
+		// Query the Model to see if there is open space in requested column
+		List<List<Integer>> board = model.getBoard();
+		return board.get(column).get(ROWS - 1) == null;
+	}
+	
+	/**
 	 * Places a token in the next available slot inside
 	 * of the provided column. 
 	 * 
 	 * @param col Column to insert a token into
 	 */
-	public void placeInRow(int col) {
+	private void placeInRow(int col) {
 		Connect4MoveMessage  message;
 		List<Integer> column = model.getBoard().get(col);
 		int row = 0;
@@ -146,7 +146,7 @@ public class Connect4Controller {
 	 * 
 	 * @return boolean result of board checking
 	 */
-	public boolean isBoardFull() {
+	private boolean isBoardFull() {
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLUMNS; col++) {
 				if (model.getBoard().get(col).get(row) == null) {
@@ -165,11 +165,9 @@ public class Connect4Controller {
 	 */
 	public boolean checkIfGameOver() {
 		List<List<Integer>> board = model.getBoard();
-		
 		if (isBoardFull() || checkRows() || checkCols() || checkDiagonals()) {
 			return true;
 		}
-		
 		return false;
 	}
 	
@@ -180,7 +178,7 @@ public class Connect4Controller {
 	 * 
 	 * @return boolean result of the row-search on the board
 	 */
-	public boolean checkRows() {
+	private boolean checkRows() {
 		Integer currId = -1;
 		for (int row = 0; row < ROWS; row++) {
 			int currCount = 0;
@@ -209,7 +207,7 @@ public class Connect4Controller {
 	 * 
 	 * @return boolean result of the column-search on the board
 	 */
-	public boolean checkCols() {
+	private boolean checkCols() {
 		Integer currId = -1;
 		for (int col = 0; col < COLUMNS; col++) {
 			int currCount = 0;
@@ -228,7 +226,6 @@ public class Connect4Controller {
 				}
 			}
 		}
-		
 		return false;
 	}
 
@@ -239,7 +236,7 @@ public class Connect4Controller {
 	 * 
 	 * @return boolean result of the diagonal-search on the board
 	 */
-	public boolean checkDiagonals() {
+	private boolean checkDiagonals() {
 		
 		// Check all rows in column 0
 		for (int row = 0; row < ROWS; row++) {
@@ -273,10 +270,6 @@ public class Connect4Controller {
 				return true;
 			}
 		}		
-		
-		
-		
-		
 		return false;
 	}
 
@@ -292,7 +285,7 @@ public class Connect4Controller {
 	 * @param col Starting column
 	 * @return boolean result of right-directed diagonal check
 	 */
-	public boolean checkRightDiagonals(int col, int row) {
+	private boolean checkRightDiagonals(int col, int row) {
 		int currCount = 0;
 		Integer currId = -1;
 		
@@ -313,7 +306,6 @@ public class Connect4Controller {
 			row++;
 			col++;
 		}
-		
 		return false;
 	}
 	
@@ -329,7 +321,7 @@ public class Connect4Controller {
 	 * @param col Starting column
 	 * @return boolean result of left-directed diagonal check
 	 */
-	public boolean checkLeftDiagonals(int col, int row) {
+	private boolean checkLeftDiagonals(int col, int row) {
 		int currCount = 0;
 		Integer currId = -1;
 		
@@ -350,7 +342,6 @@ public class Connect4Controller {
 			row++;
 			col--;
 		}
-		
 		return false;
 	}
 }
