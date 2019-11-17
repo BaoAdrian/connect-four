@@ -78,10 +78,10 @@ public class Connect4Controller {
 			}
 			if (isServer) {
 				message = new Connect4MoveMessage(row, col, Connect4MoveMessage.YELLOW);
-//				board.get(col).set(row, Connect4MoveMessage.YELLOW);
+				model.updateBoard(col, row, Connect4MoveMessage.YELLOW);
 			} else {
 				message = new Connect4MoveMessage(row, col, Connect4MoveMessage.RED);
-//				board.get(col).set(row, Connect4MoveMessage.RED);
+				model.updateBoard(col, row, Connect4MoveMessage.RED);
 			}
 			
 		}

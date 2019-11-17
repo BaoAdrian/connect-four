@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Connect4Model {
+public class Connect4Model extends java.util.Observable {
 	// In Board, inner list represents column. Elements in list represent rows.
 	// [0][0] represents lower left position.
 	private List<List<Integer>> board;
@@ -28,8 +28,19 @@ public class Connect4Model {
 		}
 	}
 	
-	public void placeMove() {
-		
+	/**
+	 * Public Mutator of the board to insert a specified color at 
+	 * the given row/col index. As the Observable, sets the state
+	 * that it has changed and notifies all observers.
+	 * 
+	 * @param col Given column to update
+	 * @param row Given row to update
+	 * @param color Color to be set at the given row,col position
+	 */
+	public void updateBoard(int col, int row, int color) {
+		board.get(col).set(row, color);
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
