@@ -237,7 +237,7 @@ public class Connect4Controller {
 	 * 
 	 * @return boolean result of the diagonal-search on the board
 	 */
-	private boolean checkDiagonals() {
+	public boolean checkDiagonals() {
 		
 		// Two-stage checking
 		// From lower-left -> upper-right
@@ -245,19 +245,19 @@ public class Connect4Controller {
 		
 		// Checking lower-left -> upper-right
 		for (int row = 0; row < ROWS; row++) {
-			if (model.getBoard().get(row).get(0) == null) {
+			if (model.getBoard().get(0).get(row) == null) {
 				continue;
 			}
-			if (checkRightDiagonals(row, 0)) {
+			if (checkRightDiagonals(0, row)) {
 				return true;
 			}
 		}
 		
 		for (int col = 0; col < COLUMNS; col++) {
-			if (model.getBoard().get(0).get(col) == null) {
+			if (model.getBoard().get(col).get(0) == null) {
 				continue;
 			}
-			if (checkRightDiagonals(0, col)) {
+			if (checkRightDiagonals(col, 0)) {
 				return true;
 			}
 		}		
@@ -265,19 +265,19 @@ public class Connect4Controller {
 		
 		// Checking lower-right -> upper-left
 		for (int row = 0; row < ROWS; row++) {
-			if (model.getBoard().get(row).get(COLUMNS - 1) == null) {
+			if (model.getBoard().get(COLUMNS - 1).get(row) == null) {
 				continue;
 			}
-			if (checkLeftDiagonals(row, COLUMNS - 1)) {
+			if (checkLeftDiagonals(COLUMNS - 1, row)) {
 				return true;
 			}
 		}
 		
-		for (int col = 6; col >= 0; col--) {
-			if (model.getBoard().get(0).get(col) == null) {
+		for (int col = 0; col < COLUMNS; col++) {
+			if (model.getBoard().get(col).get(0) == null) {
 				continue;
 			}
-			if (checkLeftDiagonals(0, col)) {
+			if (checkLeftDiagonals(col, 0)) {
 				return true;
 			}
 		}	
@@ -297,7 +297,7 @@ public class Connect4Controller {
 	 * @param col Starting column
 	 * @return boolean result of right-directed diagonal check
 	 */
-	private boolean checkRightDiagonals(int row, int col) {
+	public boolean checkRightDiagonals(int row, int col) {
 		int currCount = 0;
 		Integer currId = -1;
 		
