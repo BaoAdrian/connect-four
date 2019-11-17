@@ -43,11 +43,34 @@ public class Connect4NetworkSetup extends Stage {
 		HBox createHBox = generateHBox("Create: ", "Server", "Client");
 		HBox playAsHBox = generateHBox("Play as: ", "Human", "Computer");
 		HBox networkHBox = generateNetworkHBox();
+		HBox buttonHBox = generateButtonHBox(createHBox, playAsHBox, networkHBox);
+		
+		// Add Hboxes to the VBox
+		vbox.getChildren().addAll(createHBox, playAsHBox, networkHBox, buttonHBox);		
+		
+		Scene scene = new Scene(vbox);
+		stage.setScene(scene);
+		stage.showAndWait();
+	}
+	
+	/**
+	 * Generates HBox for Buttons
+	 * 
+	 * Adds 'OK' and 'CANCEL' buttons with their associated
+	 * handlers utilizing the passed in HBoxes to update the
+	 * corresponding information.
+	 * 
+	 * @param createHBox HBox containing information required by handlers
+	 * @param playAsHBox HBox containing information required by handlers
+	 * @param networkHBox HBox containing information required by handlers
+	 * @return Generated HBox containing two Buttons
+	 */
+	public HBox generateButtonHBox(HBox createHBox, HBox playAsHBox, HBox networkHBox) {
+		HBox buttonHBox = new HBox(10); // Spacing of 10
 		Button okBtn = new Button("OK");
 		Button cancelBtn = new Button("Cancel");
-		HBox buttonBox = new HBox(10); // Spacing of 10
-		buttonBox.getChildren().addAll(okBtn, cancelBtn);
-		buttonBox.setPadding(new Insets(10,10,10,10));
+		buttonHBox.getChildren().addAll(okBtn, cancelBtn);
+		buttonHBox.setPadding(new Insets(10,10,10,10));
 		
 		// Handlers
 		okBtn.setOnAction( e -> {
@@ -100,11 +123,8 @@ public class Connect4NetworkSetup extends Stage {
 			isCancelled = true;
 			stage.close();
 		});
-
-		vbox.getChildren().addAll(createHBox, playAsHBox, networkHBox, buttonBox);		
-		Scene scene = new Scene(vbox);
-		stage.setScene(scene);
-		stage.showAndWait();
+		
+		return buttonHBox;
 	}
 	
 	/**
