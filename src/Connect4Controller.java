@@ -17,8 +17,8 @@ public class Connect4Controller {
 	private Connect4Client client;
 	private boolean GUIDisabled;
 	
-	public Connect4Controller() {
-		this.model = new Connect4Model();
+	public Connect4Controller(Connect4Model model) {
+		this.model = model;
 	}
 	
 	public Connect4Controller(List<List<Integer>> board) {
@@ -58,6 +58,8 @@ public class Connect4Controller {
 	 */
 	public void humanTurn(int col) {
 		if (hasOpenSlot(col)) {
+			System.out.println("Here");
+			System.out.println(model.getBoard());
 			placeInRow(col);
 		} else {
 			// Invalid slot chosen, notify model of erroneous
