@@ -182,16 +182,18 @@ public class Connect4Controller {
 		Integer currId = -1;
 		for (int row = 0; row < ROWS; row++) {
 			int currCount = 0;
-				// currCount should be inside first for loop
 			for (int col = 0; col < COLUMNS; col++) {
-				if (model.getBoard().get(col).get(row).equals(currId)) {
+				Integer id = model.getBoard().get(col).get(row);
+				if (id == currId) {
 					currCount++;
 					if (currCount == WINNING_COUNT) {
 						return true;
 					}
 				} else {
-					currId = model.getBoard().get(col).get(row);
-					currCount = 1;
+					if (id != null) {
+						currId = model.getBoard().get(col).get(row);
+						currCount = 1;
+					}
 				}
 			}
 		}
@@ -206,18 +208,22 @@ public class Connect4Controller {
 	 * @return boolean result of the column-search on the board
 	 */
 	public boolean checkCols() {
-		int currCount = 0;
 		Integer currId = -1;
 		for (int col = 0; col < COLUMNS; col++) {
+			int currCount = 0;
 			for (int row = 0; row < ROWS; row++) {
-				if (model.getBoard().get(col).get(row).equals(currId)) {
+				Integer id = model.getBoard().get(col).get(row);
+				System.out.println(currId + " vs " + id);
+				if (id == currId) {
 					currCount++;
 					if (currCount == WINNING_COUNT) {
 						return true;
 					}
 				} else {
-					currId = model.getBoard().get(col).get(row);
-					currCount = 1;
+					if (id != null) {
+						currId = model.getBoard().get(col).get(row);
+						currCount = 1;
+					}
 				}
 			}
 		}
