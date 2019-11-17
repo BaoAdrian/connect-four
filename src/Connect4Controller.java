@@ -72,16 +72,16 @@ public class Connect4Controller {
 			Connect4MoveMessage  message;
 			List<List<Integer>> board = model.getBoard();
 			List<Integer> column = board.get(col);
-			int index = 0;
-			while (column.get(index) != null) {
-				index ++;
+			int row = 0;
+			while (column.get(row) != null) {
+				row ++;
 			}
 			if (isServer) {
-				message = new Connect4MoveMessage(index, col, Connect4MoveMessage.YELLOW);
-				board.get(col).set(index, Connect4MoveMessage.YELLOW);
+				message = new Connect4MoveMessage(row, col, Connect4MoveMessage.YELLOW);
+//				board.get(col).set(row, Connect4MoveMessage.YELLOW);
 			} else {
-				message = new Connect4MoveMessage(index, col, Connect4MoveMessage.RED);
-				board.get(col).set(index, Connect4MoveMessage.RED);
+				message = new Connect4MoveMessage(row, col, Connect4MoveMessage.RED);
+//				board.get(col).set(row, Connect4MoveMessage.RED);
 			}
 			
 		}
