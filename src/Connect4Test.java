@@ -114,6 +114,17 @@ public class Connect4Test {
 		
 	}
 	
+	@Test
+	public void testMoveMessage() {
+		Connect4MoveMessage message = new Connect4MoveMessage(0, 1, Connect4MoveMessage.RED);
+		assertEquals(message.getRow(), 0);
+		assertNotEquals(message.getRow(), -1);
+		assertEquals(message.getColumn(), 1);
+		assertNotEquals(message.getColumn(), -1);
+		assertEquals(message.getColor(), Connect4MoveMessage.RED);
+		assertNotEquals(message.getColor(), Connect4MoveMessage.YELLOW);		
+	}
+	
 	/**
 	 * Utility function to build board filled with 
 	 * whatever value is passed in (null or valid ids)
