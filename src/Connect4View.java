@@ -130,7 +130,7 @@ public class Connect4View extends Application implements java.util.Observer {
 				// Pass to model the column requested by user
 				controller.humanTurn(targetColumn);
 			}
-			controller.humanTurn(targetColumn);
+//			controller.humanTurn(targetColumn);
 		});
 		
 		// Initialize each cell with a WHITE Circle Object
