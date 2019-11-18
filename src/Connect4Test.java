@@ -14,34 +14,28 @@ public class Connect4Test {
 	
 	@Test
 	public void testGameOverDetection() {
-		List<List<Integer>> emptyBoard = buildBoard(null);
-		Connect4Controller controllerOne = new Connect4Controller(emptyBoard);
+		Connect4Controller controllerOne = new Connect4Controller(buildBoard(null));
 		assertFalse(controllerOne.checkIfGameOver());
 		
-		List<List<Integer>> winningBoard = buildBoard(Connect4MoveMessage.YELLOW);
-		Connect4Controller controllerTwo = new Connect4Controller(winningBoard);
+		Connect4Controller controllerTwo = new Connect4Controller(buildBoard(Connect4MoveMessage.YELLOW));
 		assertTrue(controllerTwo.checkIfGameOver());
 	}
 	
 	@Test
 	public void testRowWinDetection() {
-		List<List<Integer>> emptyBoard = buildBoard(null);
-		Connect4Controller controllerOne = new Connect4Controller(emptyBoard);
+		Connect4Controller controllerOne = new Connect4Controller(buildBoard(null));
 		assertFalse(controllerOne.checkIfGameOver());
 		
-		List<List<Integer>> winningBoard = buildRowWinBoard();
-		Connect4Controller controllerTwo = new Connect4Controller(winningBoard);
+		Connect4Controller controllerTwo = new Connect4Controller(buildRowWinBoard());
 		assertTrue(controllerTwo.checkIfGameOver());
 	}
 	
 	@Test
 	public void testColWinDetection() {
-		List<List<Integer>> emptyBoard = buildBoard(null);
-		Connect4Controller controllerOne = new Connect4Controller(emptyBoard);
+		Connect4Controller controllerOne = new Connect4Controller(buildBoard(null));
 		assertFalse(controllerOne.checkIfGameOver());
 		
-		List<List<Integer>> winningBoard = buildColWinBoard();
-		Connect4Controller controllerTwo = new Connect4Controller(winningBoard);
+		Connect4Controller controllerTwo = new Connect4Controller(buildColWinBoard());
 		assertTrue(controllerTwo.checkIfGameOver());
 	}
 	
@@ -101,17 +95,14 @@ public class Connect4Test {
 	
 	@Test
 	public void testEndGame() {
-		List<List<Integer>> board = buildBoard(Connect4MoveMessage.RED);
-		Connect4Controller controller = new Connect4Controller(board);
-		
+		Connect4Controller controller = new Connect4Controller(buildBoard(Connect4MoveMessage.RED));
 		assertTrue(controller.checkIfGameOver());
 		controller.declareWinner();
 	}
 	
 	@Test
 	public void testComputerTurn() {
-		List<List<Integer>> board = buildBoard(null);
-		Connect4Controller controller = new Connect4Controller(board);
+		Connect4Controller controller = new Connect4Controller(buildBoard(null));
 		int max = Connect4Controller.ROWS * Connect4Controller.COLUMNS + 1;
 		for(int i = 0; i < max; i++) {
 			controller.computerTurn();
@@ -120,8 +111,7 @@ public class Connect4Test {
 	
 	@Test
 	public void testHumanTurn() {
-		List<List<Integer>> board = buildBoard(null);
-		Connect4Controller controller = new Connect4Controller(board);
+		Connect4Controller controller = new Connect4Controller(buildBoard(null));
 		// Place tokens (attempt extra placements) at column 0
 		for (int i = 0; i < 8; i++) {
 			controller.humanTurn(0);
@@ -129,7 +119,7 @@ public class Connect4Test {
 	}
 	
 	@Test
-	public void testMoveMessage() {
+	public void testMoveMessageObject() {
 		Connect4MoveMessage yellowMessage = new Connect4MoveMessage(1, 2, Connect4MoveMessage.YELLOW);
 		Connect4MoveMessage redMessage = new Connect4MoveMessage(0, 1, Connect4MoveMessage.RED);
 		assertEquals(redMessage.getRow(), 0);
@@ -141,6 +131,17 @@ public class Connect4Test {
 		
 		assertNotNull(yellowMessage.toString());
 		assertNotNull(redMessage.toString());
+		
+		Connect4Controller controller = new Connect4Controller(buildBoard(null));
+		controller.handleMessage(yellowMessage);
+		
+	}
+	
+	@Test
+	public void testNetworking() {
+		Connect4Controller controller = new Connect4Controller(buildBoard(null));
+		controller.createGame(true, true, "localhost", 4000);
+		controller.createGame(false, true, "localhost", 4000);
 	}
 	
 	/**
