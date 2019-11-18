@@ -155,6 +155,11 @@ public class Connect4View extends Application implements java.util.Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg instanceof int[]) {
+			int[] args = (int[])arg;
+			System.out.println(args[0]);
+			System.out.println(args[1]);
+			System.out.println(args[2]);
+
 			// Pull adjusted placement onto GridPane
 			int rowPlacement = Connect4Controller.ROWS - ((int[])arg)[1] - 1;
 			int colPlacement = ((int[])arg)[0];
