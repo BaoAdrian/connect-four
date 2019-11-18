@@ -1,3 +1,16 @@
+/**
+ * @author Mauricio Herrera, Adrian Bao
+ * 
+ * CSC 335 - Object Oriented Programming and Design
+ * 
+ * Title: Networked Connect 4
+ * 
+ * File: Connect4MoveMessage.java
+ * 
+ * Description: This class acts as a container for the descriptions
+ * of player moves to be used in client-server communications.
+ */
+
 import java.io.Serializable;
 
 public class Connect4MoveMessage implements Serializable{
