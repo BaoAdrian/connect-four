@@ -108,8 +108,11 @@ public class Connect4NetworkSetup extends Stage {
 				if (node instanceof TextField) {
 					if (isServerTF) {
 						this.hostInfo = ((TextField)node).getText();
+						System.out.println("Host: " + this.hostInfo);
+						isServerTF = false;
 					} else {
 						this.portInfo = Integer.valueOf(((TextField)node).getText());
+						System.out.println("Port: " + this.portInfo);
 					}
 				}
 			}

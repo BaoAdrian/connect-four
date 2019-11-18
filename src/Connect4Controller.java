@@ -34,12 +34,10 @@ public class Connect4Controller {
 		
 		// Network role is server, start server.
 		if (isServer) {
-//			server = new Connect4Server(port, this);
-			server = new Connect4Server(4000, this);
+			server = new Connect4Server(port, this);
 			GUIDisabled = false;
 		} else {
-			client = new Connect4Client("localhost", 4000, this);
-//			client = new Connect4Client(host, port, this);
+			client = new Connect4Client(host, port, this);
 			client.connect();
 			client.waitForMessage();
 			GUIDisabled = true;
