@@ -20,14 +20,16 @@ public class Connect4Server {
 			server = new ServerSocket(port);
 			Thread connectionThread = new Thread(new RunnableConnection());
 			connectionThread.start();
-//			output = new ObjectOutputStream(connection.getOutputStream());
+			output = new ObjectOutputStream(connection.getOutputStream());
 //			input = new ObjectInputStream(connection.getInputStream());
 		} catch (IOException e){
 			e.printStackTrace();
 		}
 	}
 	
-	public void sendMessage(Connect4MoveMessage message) {
+	// Add a throws null pointer exception and check for it in case client has not connected
+	public void sendMessage(Connect4MoveMessage message){
+		System.out.println(message);
 		RunnableSendMessage runnableMsg = new RunnableSendMessage(message);
 		Thread messageThread = new Thread(runnableMsg);
 		messageThread.start();
@@ -63,9 +65,9 @@ public class Connect4Server {
 		@Override
 		public void run() {
 			try {
-				output = new ObjectOutputStream(connection.getOutputStream());
+//				output = new ObjectOutputStream(connection.getOutputStream());
 				output.writeObject(message);
-				output.close();
+//				output.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
