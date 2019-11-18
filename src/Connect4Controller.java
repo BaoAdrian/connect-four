@@ -1,8 +1,13 @@
 /**
- * Connect4Controller
  * @author Mauricio Herrera, Adrian Bao
  * 
- * Purpose: Controller of the MVC Design Pattern implemented
+ * CSC 335 - Object Oriented Programming and Design
+ * 
+ * Title: Networked Connect 4
+ * 
+ * File: Connect4Controller.java
+ * 
+ * Description: Controller of the MVC Design Pattern implemented
  * for Connect 4. Contains all of the game logic including turns
  * win detection, and state update transfers.
  */
