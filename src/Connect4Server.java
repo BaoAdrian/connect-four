@@ -68,6 +68,19 @@ public class Connect4Server {
 	}
 	
 	/**
+	 * This method closes the server socket.
+	 */
+	public void closeConnection() {
+		try {
+			output.close();
+			server.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * 
 	 * @author Mauricio Herrera, Adrian Bao
 	 * 
@@ -86,17 +99,7 @@ public class Connect4Server {
 				input = new ObjectInputStream(connection.getInputStream());
 				message = (Connect4MoveMessage)input.readObject();
 				System.out.println("received: " + message);
-//				Platform.runLater(new Runnable() {
-//
-//					@Override
-//					public void run() {
-//						controller.handleMessage(message);
-//					}
-//					
-//				});
 				Platform.runLater(() -> controller.handleMessage(message));
-//				controller.handleMessage(message);
-//				input.close();
 			} catch (IOException | ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
