@@ -36,8 +36,9 @@ public class Connect4Controller {
 		if (isServer) {
 			server = new Connect4Server(port, this);
 		} else {
-			client = new Connect4Client(host, port);
+			client = new Connect4Client(host, port, this);
 			client.connect();
+			
 		}
 		GUIDisabled = true;
 	}
@@ -54,6 +55,11 @@ public class Connect4Controller {
 		GUIDisabled = false;
 	}
 	
+	public void handleMessage(Connect4MoveMessage message) {
+		model.updateBoard(message);
+		enableGUI();
+	}
+	
 	/**
 	 * Executes a requested move on behalf of the human
 	 * 
@@ -66,6 +72,7 @@ public class Connect4Controller {
 	public void humanTurn(int col) {
 		if (hasOpenSlot(col)) {
 			placeInRow(col);
+			disableGUI();
 		} else {
 			Alert columnFullAlert = new Alert(AlertType.WARNING);
 			columnFullAlert.setContentText("Column full, pick somewhere else!");
