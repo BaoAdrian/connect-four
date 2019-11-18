@@ -38,10 +38,15 @@ public class Connect4Controller {
 		} else {
 			client = new Connect4Client(host, port, this);
 			client.connect();
-			
 		}
+		
+//		// Instantiating both server and client for debugging purposes.
+//		server = new Connect4Server(port, this);
+		client = new Connect4Client(host, port, this);
+		client.connect();
 		GUIDisabled = true;
 	}
+	
 	
 	public boolean isGUIDisabled() {
 		return GUIDisabled;
