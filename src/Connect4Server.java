@@ -20,7 +20,6 @@ public class Connect4Server {
 			server = new ServerSocket(port);
 			Thread connectionThread = new Thread(new RunnableConnection());
 			connectionThread.start();
-//			connection = server.accept();
 //			output = new ObjectOutputStream(connection.getOutputStream());
 //			input = new ObjectInputStream(connection.getInputStream());
 		} catch (IOException e){
@@ -28,6 +27,36 @@ public class Connect4Server {
 		}
 	}
 	
+	public void sendMessage(Connect4MoveMessage message) {
+		RunnableMessage runnableMsg = new RunnableMessage(message);
+		Thread messageThread = new Thread(runnableMsg);
+		messageThread.start();
+	}
+	
+	
+	public Connect4MoveMessage waitForMessage() {
+		
+	}
+	
+	private class RunnableMessage implements Runnable {
+		private Connect4MoveMessage message;
+		
+		public RunnableMessage(Connect4MoveMessage message) {
+			this.message = message;
+		}
+		@Override
+		public void run() {
+			try {
+				output = new ObjectOutputStream(connection.getOutputStream());
+				output.writeObject(message);
+				output.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+	}
 	
 	private class RunnableConnection implements Runnable {
 
@@ -35,6 +64,7 @@ public class Connect4Server {
 		public void run() {
 			try {
 				connection = server.accept();
+				controller.enableGUI();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
