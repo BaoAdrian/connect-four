@@ -131,7 +131,9 @@ public class Connect4View extends Application implements java.util.Observer {
 				controller.humanTurn(targetColumn);
 			}
 //			controller.humanTurn(targetColumn);
-			System.out.println(targetColumn);
+//			System.out.println(targetColumn);
+//			System.out.println(gameExists);
+//			System.out.println(controller.isGUIDisabled());
 		});
 		
 		// Initialize each cell with a WHITE Circle Object
