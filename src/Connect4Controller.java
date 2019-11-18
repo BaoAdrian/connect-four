@@ -14,8 +14,6 @@
 
 import java.util.List;
 import java.util.Random;
-
-import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
@@ -27,7 +25,7 @@ public class Connect4Controller {
 	public static final int ROWS = 6;
 	public static final int COLUMNS = 7;
 	private static final int WINNING_COUNT = 4;
-	private static final int COMPUTER_TURN_LENGTH = 3000;
+	private static final int COMPUTER_TURN_LENGTH = 1500;
 	
 	//Fields
 	private boolean isServer; // Server is ALWAYS yellow. || Client is ALWAYS red
