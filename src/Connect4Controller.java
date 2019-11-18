@@ -50,19 +50,38 @@ public class Connect4Controller {
 //		GUIDisabled = true;
 	}
 	
-	
+	/**
+	 * Public Accessor method for GUIDisabled
+	 * @return boolean value of GUIDisabled attribute
+	 */
 	public boolean isGUIDisabled() {
 		return GUIDisabled;
 	}
 	
+	/**
+	 * Simple mutator for GUIDisabled attribute
+	 * to set it equal to true, disabling the GUI.
+	 */
 	public void disableGUI() {
 		GUIDisabled = true;
 	}
 	
+	/**
+	 * Simple mutator for GUIDisabled attribute
+	 * to set it equal to false, enabling the GUI.
+	 */
 	public void enableGUI() {
 		GUIDisabled = false;
 	}
 	
+	/**
+	 * Passes a message received from the GUI to the model
+	 * to perform the require update to the board with the 
+	 * requested move.
+	 * 
+	 * @param message Connect4MoveMessage object containing
+	 * placement and color information.
+	 */
 	public void handleMessage(Connect4MoveMessage message) {
 		model.updateBoard(message);
 		enableGUI();
@@ -82,11 +101,10 @@ public class Connect4Controller {
 			disableGUI();
 			placeInRow(col);
 		} else {
+			// Erroneous selection, notify user
 			Alert columnFullAlert = new Alert(AlertType.WARNING);
 			columnFullAlert.setContentText("Column full, pick somewhere else!");
 			columnFullAlert.showAndWait();
-			// Invalid slot chosen, notify model of erroneous
-			// placement, pop modal
 		}
 	}
 	
@@ -186,9 +204,7 @@ public class Connect4Controller {
 		}
 		return true;
 	}
-	
-
-	
+		
 	/**
 	 * Checks state of the board to see if game is over
 	 * @return boolean result on if the game is over
