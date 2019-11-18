@@ -14,29 +14,36 @@ public class Connect4Test {
 	
 	@Test
 	public void testGameOverDetection() {
-		Connect4Controller controllerOne = new Connect4Controller(buildBoard(null));
-		assertFalse(controllerOne.checkIfGameOver());
+		// Test method on empty board
+		Connect4Controller cOne = new Connect4Controller(buildBoard(null));
+		assertFalse(cOne.checkIfGameOver());
 		
-		Connect4Controller controllerTwo = new Connect4Controller(buildBoard(Connect4MoveMessage.YELLOW));
-		assertTrue(controllerTwo.checkIfGameOver());
+		// Test method winning board
+		Connect4Controller cTwo = new Connect4Controller(buildBoard(Connect4MoveMessage.YELLOW));
+		assertTrue(cTwo.checkIfGameOver());
+		cTwo.declareWinner();
 	}
 	
 	@Test
 	public void testRowWinDetection() {
-		Connect4Controller controllerOne = new Connect4Controller(buildBoard(null));
-		assertFalse(controllerOne.checkIfGameOver());
+		// Test method on empty board
+		Connect4Controller cOne = new Connect4Controller(buildBoard(null));
+		assertFalse(cOne.checkIfGameOver()); // implicit call to checkRows()
 		
-		Connect4Controller controllerTwo = new Connect4Controller(buildRowWinBoard());
-		assertTrue(controllerTwo.checkIfGameOver());
+		// Test method on winning board
+		Connect4Controller cTwo = new Connect4Controller(buildRowWinBoard());
+		assertTrue(cTwo.checkIfGameOver()); // implicit call to checkRows()
 	}
 	
 	@Test
 	public void testColWinDetection() {
-		Connect4Controller controllerOne = new Connect4Controller(buildBoard(null));
-		assertFalse(controllerOne.checkIfGameOver());
-		
-		Connect4Controller controllerTwo = new Connect4Controller(buildColWinBoard());
-		assertTrue(controllerTwo.checkIfGameOver());
+		// Test method on empty board
+		Connect4Controller cOne = new Connect4Controller(buildBoard(null));
+		assertFalse(cOne.checkIfGameOver()); // implicit call to checkCols()
+
+		// Test method on winning board
+		Connect4Controller cTwo = new Connect4Controller(buildColWinBoard());
+		assertTrue(cTwo.checkIfGameOver()); // implicit call to checkCols()
 	}
 	
 	@Test
@@ -53,7 +60,7 @@ public class Connect4Test {
 		// Case 1 - Empty Board
 		List<List<Integer>> emptyBoard = buildBoard(null);
 		Connect4Controller cOne = new Connect4Controller(emptyBoard);
-		assertFalse(cOne.checkIfGameOver());
+		assertFalse(cOne.checkIfGameOver()); // implicit call to checkDiagonals()
 		
 		// Case 2 - Right-directed Diagonal (@ column 0)
 		List<List<Integer>> rdOne = buildBoard(null);
@@ -62,7 +69,7 @@ public class Connect4Test {
 		rdOne.get(2).set(2, Connect4MoveMessage.YELLOW);
 		rdOne.get(3).set(3, Connect4MoveMessage.YELLOW);
 		Connect4Controller cTwo = new Connect4Controller(rdOne);
-		assertTrue(cTwo.checkIfGameOver());
+		assertTrue(cTwo.checkIfGameOver()); // implicit call to checkDiagonals()
 		
 		// Case 3 - Right-directed Diagonal (elsewhere)
 		List<List<Integer>> rdTwo = buildBoard(null);
@@ -71,7 +78,7 @@ public class Connect4Test {
 		rdTwo.get(4).set(2, Connect4MoveMessage.YELLOW);
 		rdTwo.get(5).set(3, Connect4MoveMessage.YELLOW);
 		Connect4Controller cThree = new Connect4Controller(rdTwo);
-		assertTrue(cThree.checkIfGameOver());
+		assertTrue(cThree.checkIfGameOver()); // implicit call to checkDiagonals()
 		
 		// Case 4 - Left-directed Diagonal (@ column 6)
 		List<List<Integer>> ldOne = buildBoard(null);
@@ -80,7 +87,7 @@ public class Connect4Test {
 		ldOne.get(4).set(2, Connect4MoveMessage.YELLOW);
 		ldOne.get(3).set(3, Connect4MoveMessage.YELLOW);
 		Connect4Controller cFour = new Connect4Controller(ldOne);
-		assertTrue(cFour.checkIfGameOver());
+		assertTrue(cFour.checkIfGameOver()); // implicit call to checkDiagonals()
 		
 		// Case 5 - Left-directed Diagonal (elsewhere)
 		List<List<Integer>> ldTwo = buildBoard(null);
@@ -90,18 +97,12 @@ public class Connect4Test {
 		ldTwo.get(2).set(2, Connect4MoveMessage.YELLOW);
 		ldTwo.get(1).set(3, Connect4MoveMessage.YELLOW);
 		Connect4Controller cFive = new Connect4Controller(ldTwo);
-		assertTrue(cFive.checkIfGameOver());
-	}
-	
-	@Test
-	public void testEndGame() {
-		Connect4Controller controller = new Connect4Controller(buildBoard(Connect4MoveMessage.RED));
-		assertTrue(controller.checkIfGameOver());
-		controller.declareWinner();
+		assertTrue(cFive.checkIfGameOver()); // implicit call to checkDiagonals()
 	}
 	
 	@Test
 	public void testComputerTurn() {
+		// Simulate computer turn beyond max
 		Connect4Controller controller = new Connect4Controller(buildBoard(null));
 		int max = Connect4Controller.ROWS * Connect4Controller.COLUMNS + 1;
 		for(int i = 0; i < max; i++) {
@@ -111,15 +112,16 @@ public class Connect4Test {
 	
 	@Test
 	public void testHumanTurn() {
+		// Simulate user turns beyond max
 		Connect4Controller controller = new Connect4Controller(buildBoard(null));
-		// Place tokens (attempt extra placements) at column 0
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < Connect4Controller.COLUMNS + 1; i++) {
 			controller.humanTurn(0);
 		}
 	}
 	
 	@Test
 	public void testMoveMessageObject() {
+		// Test creation/accessors
 		Connect4MoveMessage yellowMessage = new Connect4MoveMessage(1, 2, Connect4MoveMessage.YELLOW);
 		Connect4MoveMessage redMessage = new Connect4MoveMessage(0, 1, Connect4MoveMessage.RED);
 		assertEquals(redMessage.getRow(), 0);
@@ -129,9 +131,11 @@ public class Connect4Test {
 		assertEquals(redMessage.getColor(), Connect4MoveMessage.RED);
 		assertNotEquals(redMessage.getColor(), Connect4MoveMessage.YELLOW);		
 		
+		// Test message output for differing message IDs
 		assertNotNull(yellowMessage.toString());
 		assertNotNull(redMessage.toString());
 		
+		// Test message handling
 		Connect4Controller controller = new Connect4Controller(buildBoard(null));
 		controller.handleMessage(yellowMessage);
 		
@@ -139,6 +143,7 @@ public class Connect4Test {
 	
 	@Test
 	public void testNetworking() {
+		// Test game creation as SERVER (true) and CLIENT (false)
 		Connect4Controller controller = new Connect4Controller(buildBoard(null));
 		controller.createGame(true, true, "localhost", 4000);
 		controller.createGame(false, true, "localhost", 4000);
