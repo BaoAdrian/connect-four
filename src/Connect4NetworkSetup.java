@@ -1,4 +1,12 @@
-
+/**
+ * Connect4NetworkSetup
+ * @author Mauricio Herrera, Adrian Bao
+ * 
+ * Purpose: This is an object that represents the setup
+ * menu that pops up to request host, port, and player 
+ * information prior to the start of a Networking Connect
+ * 4 game.
+ */
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
