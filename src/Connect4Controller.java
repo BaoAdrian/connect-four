@@ -38,6 +38,7 @@ public class Connect4Controller {
 		} else {
 			client = new Connect4Client(host, port, this);
 			client.connect();
+			client.waitForMessage();
 		}
 		
 //		// Instantiating both server and client for debugging purposes.
@@ -76,8 +77,8 @@ public class Connect4Controller {
 	 */
 	public void humanTurn(int col) {
 		if (hasOpenSlot(col)) {
-			placeInRow(col);
 			disableGUI();
+			placeInRow(col);
 		} else {
 			Alert columnFullAlert = new Alert(AlertType.WARNING);
 			columnFullAlert.setContentText("Column full, pick somewhere else!");
@@ -135,9 +136,12 @@ public class Connect4Controller {
 			model.updateBoard(col, row, Connect4MoveMessage.YELLOW);
 			message = new Connect4MoveMessage(row, col, Connect4MoveMessage.YELLOW);
 			server.sendMessage(message);
+			server.waitForMessage();
 		} else {
 			message = new Connect4MoveMessage(row, col, Connect4MoveMessage.RED);
 			model.updateBoard(col, row, Connect4MoveMessage.RED);
+			client.sendMessage(message);
+			client.waitForMessage();
 		}
 	}
 	
