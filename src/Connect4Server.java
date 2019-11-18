@@ -5,6 +5,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class Connect4Server {
 	
@@ -51,8 +53,16 @@ public class Connect4Server {
 				input = new ObjectInputStream(connection.getInputStream());
 				message = (Connect4MoveMessage)input.readObject();
 				System.out.println("received: " + message);
-//				Platform.runLater(() -> controller.handleMessage(message));
-				controller.handleMessage(message);
+//				Platform.runLater(new Runnable() {
+//
+//					@Override
+//					public void run() {
+//						controller.handleMessage(message);
+//					}
+//					
+//				});
+				Platform.runLater(() -> controller.handleMessage(message));
+//				controller.handleMessage(message);
 //				input.close();
 			} catch (IOException | ClassNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -74,7 +84,6 @@ public class Connect4Server {
 				output.writeObject(message);
 //				output.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			

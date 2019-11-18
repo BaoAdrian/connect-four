@@ -76,8 +76,16 @@ public class Connect4Client {
 				input = new ObjectInputStream(server.getInputStream());
 				message = (Connect4MoveMessage)input.readObject();
 				System.out.println("received: " + message);
-//				Platform.runLater(() -> controller.handleMessage(message));
-				controller.handleMessage(message);
+//				Platform.runLater(new Runnable() {
+//
+//					@Override
+//					public void run() {
+//						controller.handleMessage(message);
+//					}
+//					
+//				});
+				Platform.runLater(() -> controller.handleMessage(message));
+//				controller.handleMessage(message);
 //				input.close();											May not need to close
 			} catch (IOException | ClassNotFoundException e) {
 				// TODO Auto-generated catch block

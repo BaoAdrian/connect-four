@@ -4,6 +4,8 @@
  */
 
 import java.util.Observable;
+import java.util.Set;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -130,6 +132,17 @@ public class Connect4View extends Application implements java.util.Observer {
 			if (gameExists && !controller.isGUIDisabled()) {
 				// Pass to model the column requested by user
 				controller.humanTurn(targetColumn);
+				
+//				Thread turnThread = new Thread(new Runnable() {
+//
+//					@Override
+//					public void run() {
+//						controller.humanTurn(targetColumn);
+//						
+//					}
+//					
+//				});
+//				turnThread.start();
 			}
 //			controller.humanTurn(targetColumn);
 //			System.out.println(targetColumn);
@@ -144,6 +157,7 @@ public class Connect4View extends Application implements java.util.Observer {
 				circle.setFill(Color.WHITE);
 				gridPane.add(circle, col, row);
 //				circle.setOnMouseClicked(e -> {
+//					circle.setFill(Color.RED);
 //					System.out.println("column: " + GridPane.getColumnIndex(circle));
 //					System.out.println("row: " + GridPane.getRowIndex(circle));
 //				});
@@ -164,6 +178,11 @@ public class Connect4View extends Application implements java.util.Observer {
 			int row = Connect4Controller.ROWS - message.getRow() - 1;
 			int col = message.getColumn();
 			int color = message.getColor();
+//			if (color == Connect4MoveMessage.YELLOW) {
+//				Platform.runLater(new TokenRunnable(Color.YELLOW, row, col));
+//			} else {
+//				Platform.runLater(new TokenRunnable(Color.RED, row, col));
+//			}
 //			System.out.println(gridpa)
 //			int[] args = (int[])arg;
 //			System.out.println(args[0]);
@@ -173,22 +192,26 @@ public class Connect4View extends Application implements java.util.Observer {
 			// Pull adjusted placement onto GridPane
 //			int rowPlacement = Connect4Controller.ROWS - ((int[])arg)[1] - 1;
 //			int colPlacement = ((int[])arg)[0];
-			
-			ObservableList<Node> children = gridPane.getChildren();
-			for (Node child : children) {
+
+			for (Node child : gridPane.getChildren()) {
 				// If matching row,col -> Update with corresponding color
 				if (GridPane.getRowIndex(child).equals(row) 
 						&& GridPane.getColumnIndex(child).equals(col)) {
-					System.out.println(row + "::::::" + col);
 					if (color == Connect4MoveMessage.YELLOW) {
 //						((Circle)child).setFill(Color.YELLOW);
+						System.out.println("YELLOW");
+//						Platform.runLater(new TokenRunnable((Circle)child, Color.YELLOW, row, col));
 						Platform.runLater(() -> ((Circle)child).setFill(Color.YELLOW));
 					} else {
+						System.out.println("RED");
 //						((Circle)child).setFill(Color.RED);
+//						Platform.runLater(new TokenRunnable((Circle)child, Color.RED, row, col));
 						Platform.runLater(() -> ((Circle)child).setFill(Color.RED));
 					}
 					System.out.println(((Circle)child).getFill());
+					System.out.println("VIEW::::    " + Thread.currentThread().getName());
 				}
+			
 			}
 			
 			// After each update, check if game is over
@@ -204,13 +227,42 @@ public class Connect4View extends Application implements java.util.Observer {
 				Alert winningAlert = new Alert(AlertType.INFORMATION);
 				winningAlert.setContentText("You Win!");
 				winningAlert.showAndWait();
+				gameExists = false;
 			} else {
 				Alert losingAlert = new Alert(AlertType.INFORMATION);
 				losingAlert.setContentText("You Lose!");
 				losingAlert.showAndWait();
+				gameExists = false;
 			}
 		}
 		
+		
+	}
+	
+	private class TokenRunnable implements Runnable {
+		private Color color;
+		private int row;
+		private int col;
+		
+		public TokenRunnable(Color color, int row, int col) {
+			this.color = color;
+			this.row = row;
+			this.col = col;
+		}
+
+		@Override
+		public void run() {
+			for (Node child : gridPane.getChildren()) {
+				// If matching row,col -> Update with corresponding color
+				if (GridPane.getRowIndex(child).equals(row) 
+						&& GridPane.getColumnIndex(child).equals(col)) {
+					((Circle)child).setFill(color);
+					System.out.println(((Circle)child).getFill());
+					System.out.println("THREAD::::    " + Thread.currentThread().getName());
+				}
+			}
+//			token.setFill(color);
+		}
 		
 	}
 }
