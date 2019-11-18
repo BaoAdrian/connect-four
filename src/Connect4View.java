@@ -1,6 +1,15 @@
 /**
  * @author Mauricio Herrera, Adrian Bao
  * 
+ * CSC 335 - Object Oriented Programming and Design
+ * 
+ * Title: Networked Connect 4
+ * 
+ * File: Connect4View.java
+ * 
+ * Description: This class launches the GUI for the Connect 4 game, and
+ * creates handlers to add new tokens to board. This class also acts as
+ * an Observer and is handles updates to the Model in the update method.
  */
 
 import java.util.Observable;
@@ -239,30 +248,30 @@ public class Connect4View extends Application implements java.util.Observer {
 		
 	}
 	
-	private class TokenRunnable implements Runnable {
-		private Color color;
-		private int row;
-		private int col;
-		
-		public TokenRunnable(Color color, int row, int col) {
-			this.color = color;
-			this.row = row;
-			this.col = col;
-		}
-
-		@Override
-		public void run() {
-			for (Node child : gridPane.getChildren()) {
-				// If matching row,col -> Update with corresponding color
-				if (GridPane.getRowIndex(child).equals(row) 
-						&& GridPane.getColumnIndex(child).equals(col)) {
-					((Circle)child).setFill(color);
-					System.out.println(((Circle)child).getFill());
-					System.out.println("THREAD::::    " + Thread.currentThread().getName());
-				}
-			}
-//			token.setFill(color);
-		}
-		
-	}
+//	private class TokenRunnable implements Runnable {
+//		private Color color;
+//		private int row;
+//		private int col;
+//		
+//		public TokenRunnable(Color color, int row, int col) {
+//			this.color = color;
+//			this.row = row;
+//			this.col = col;
+//		}
+//
+//		@Override
+//		public void run() {
+//			for (Node child : gridPane.getChildren()) {
+//				// If matching row,col -> Update with corresponding color
+//				if (GridPane.getRowIndex(child).equals(row) 
+//						&& GridPane.getColumnIndex(child).equals(col)) {
+//					((Circle)child).setFill(color);
+//					System.out.println(((Circle)child).getFill());
+//					System.out.println("THREAD::::    " + Thread.currentThread().getName());
+//				}
+//			}
+////			token.setFill(color);
+//		}
+//		
+//	}
 }
