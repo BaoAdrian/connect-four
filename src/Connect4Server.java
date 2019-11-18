@@ -20,7 +20,6 @@ public class Connect4Server {
 			server = new ServerSocket(port);
 			Thread connectionThread = new Thread(new RunnableConnection());
 			connectionThread.start();
-			output = new ObjectOutputStream(connection.getOutputStream());
 //			input = new ObjectInputStream(connection.getInputStream());
 		} catch (IOException e){
 			e.printStackTrace();
@@ -82,6 +81,7 @@ public class Connect4Server {
 		public void run() {
 			try {
 				connection = server.accept();
+				output = new ObjectOutputStream(connection.getOutputStream());
 				controller.enableGUI();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
