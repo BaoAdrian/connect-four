@@ -188,7 +188,7 @@ public class Connect4View extends Application implements java.util.Observer {
 	/**
 	 * Method called by the Observable to update the Observers
 	 * with the corresponding parameters. If an int[] is provided, 
-	 * parses the row,col coordinates to insert a token of a 
+	 * parses the row, col coordinates to insert a token of a 
 	 * given color into the board.
 	 */
 	@Override
