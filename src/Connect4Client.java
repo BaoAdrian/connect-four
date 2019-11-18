@@ -5,6 +5,7 @@ import java.net.ConnectException;
 import java.net.NoRouteToHostException;
 import java.net.Socket;
 
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
@@ -16,9 +17,11 @@ public class Connect4Client {
 	private ObjectInputStream input;
 	private String host;
 	private int port;
+	private Connect4Controller controller;
 	
 	// Constructor
-	public Connect4Client(String host, int port) {
+	public Connect4Client(String host, int port, Connect4Controller controller) {
+		this.controller = controller;
 		this.host = host;
 		this.port = port;
 	}
@@ -51,6 +54,10 @@ public class Connect4Client {
 		RunnableSendMessage runnableMsg = new RunnableSendMessage(message);
 		Thread messageThread = new Thread(runnableMsg);
 		messageThread.start();
+	}
+	
+	public Connect4MoveMessage waitForMessage() {
+		return null;
 	}
 	
 	public void closeServer() {
