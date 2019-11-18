@@ -28,7 +28,7 @@ public class Connect4Server {
 	
 	// Add a throws null pointer exception and check for it in case client has not connected
 	public void sendMessage(Connect4MoveMessage message){
-		System.out.println(message);
+		System.out.println("sent: " + message);
 		RunnableSendMessage runnableMsg = new RunnableSendMessage(message);
 		Thread messageThread = new Thread(runnableMsg);
 		messageThread.start();
@@ -46,6 +46,7 @@ public class Connect4Server {
 			try {
 				input = new ObjectInputStream(connection.getInputStream());
 				Connect4MoveMessage message = (Connect4MoveMessage)input.readObject();
+				System.out.println("received: " + message);
 				controller.handleMessage(message);
 //				input.close();
 			} catch (IOException | ClassNotFoundException e) {

@@ -47,6 +47,7 @@ public class Connect4Client {
 	public void sendMessage(Connect4MoveMessage message) {
 		RunnableSendMessage runnableMsg = new RunnableSendMessage(message);
 		Thread messageThread = new Thread(runnableMsg);
+		System.out.println("sent: " + message);
 		messageThread.start();
 	}
 	
@@ -70,6 +71,7 @@ public class Connect4Client {
 			try {
 				input = new ObjectInputStream(server.getInputStream());
 				Connect4MoveMessage message = (Connect4MoveMessage)input.readObject();
+				System.out.println("received: " + message);
 				controller.handleMessage(message);
 //				input.close();											May not need to close
 			} catch (IOException | ClassNotFoundException e) {
