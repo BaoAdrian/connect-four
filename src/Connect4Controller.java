@@ -64,15 +64,6 @@ public class Connect4Controller {
 			client.waitForMessage();
 			GUIDisabled = true;
 		}
-		
-//		System.out.println(Thread.currentThread().getState());
-		
-		
-////		// Instantiating both server and client for debugging purposes.
-//		server = new Connect4Server(4000, this);
-//		client = new Connect4Client("localhost", 4000, this);
-//		client.connect();
-//		GUIDisabled = true;
 	}
 	
 	/**
@@ -135,7 +126,7 @@ public class Connect4Controller {
 			placeInRow(col);
 		} else {
 			// Erroneous selection, notify user
-			Alert columnFullAlert = new Alert(AlertType.WARNING);
+			Alert columnFullAlert = new Alert(AlertType.ERROR);
 			columnFullAlert.setContentText("Column full, pick somewhere else!");
 			columnFullAlert.showAndWait();
 		}
