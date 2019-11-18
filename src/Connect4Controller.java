@@ -15,6 +15,7 @@
 import java.util.List;
 import java.util.Random;
 
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
@@ -55,7 +56,7 @@ public class Connect4Controller {
 				Alert noClient = new Alert(AlertType.WARNING);
 				noClient.setContentText("Please wait for client to join, then press ok");
 				noClient.showAndWait();
-				computerTurn();    						// Needs check for when client has not joined
+				computerTurn();   
 			}
 		} else {
 			client = new Connect4Client(host, port, this);
@@ -63,6 +64,8 @@ public class Connect4Controller {
 			client.waitForMessage();
 			GUIDisabled = true;
 		}
+		
+//		System.out.println(Thread.currentThread().getState());
 		
 		
 ////		// Instantiating both server and client for debugging purposes.
@@ -174,6 +177,14 @@ public class Connect4Controller {
 		return board.get(column).get(ROWS - 1) == null;
 	}
 	
+	public void closeConnections() {
+		if (isServer) {
+			server.closeConnection();
+		} else {
+			client.closeConnection();
+		}
+	}
+	
 	/**
 	 * Places a token in the next available slot inside
 	 * of the provided column. 
@@ -189,13 +200,17 @@ public class Connect4Controller {
 		}
 		
 		if (isServer) {
-			model.updateBoard(col, row, Connect4MoveMessage.YELLOW);
+//			model.updateBoard(col, row, Connect4MoveMessage.YELLOW);
 			message = new Connect4MoveMessage(row, col, Connect4MoveMessage.YELLOW);
+			model.updateBoard(message);
+//			Platform.runLater(() -> model.updateBoard(message));
 			server.sendMessage(message);
 			server.waitForMessage();
 		} else {
 			message = new Connect4MoveMessage(row, col, Connect4MoveMessage.RED);
-			model.updateBoard(col, row, Connect4MoveMessage.RED);
+			model.updateBoard(message);
+//			Platform.runLater(() -> model.updateBoard(message));
+//			model.updateBoard(col, row, Connect4MoveMessage.RED);
 			client.sendMessage(message);
 			client.waitForMessage();
 		}
@@ -246,7 +261,7 @@ public class Connect4Controller {
 	 * @return boolean result on if the game is over
 	 */
 	public boolean checkIfGameOver() {
-		List<List<Integer>> board = model.getBoard();
+//		List<List<Integer>> board = model.getBoard();
 		if (isBoardFull() || checkRows() != -1 || 
 				checkCols() != -1 || checkDiagonals() != -1) {
 			return true;
@@ -263,21 +278,29 @@ public class Connect4Controller {
 	 */
 	public void declareWinner() {
 		Integer winningId = -1;
-		winningId = checkRows();
-		if (winningId != -1) {
-			model.updateBoard(winningId);
+		if (checkRows() != -1) {
+			System.out.println("ROWS WINS");
+			winningId = checkRows();
+		} else if (checkCols() != -1) {
+			System.out.println("COLUMNS WINS");
+			winningId = checkCols();
+		} else if (checkDiagonals() != -1) {
+			System.out.println("DIAGONALS WINS");
+			winningId = checkDiagonals();
 		}
 		
-		winningId = checkCols();
 		if (winningId != -1) {
-			model.updateBoard(winningId);
-		}
-		
-		winningId = checkDiagonals();
-		if (winningId != -1) {
-			model.updateBoard(winningId);
-		} else {
-			model.updateBoard(winningId);
+			if ((isServer && winningId == Connect4MoveMessage.YELLOW) || 
+					(!isServer && winningId == Connect4MoveMessage.RED)) {
+				Alert winningAlert = new Alert(AlertType.INFORMATION);
+				winningAlert.setContentText("You Win!");
+				winningAlert.showAndWait();
+			} else {
+				Alert losingAlert = new Alert(AlertType.INFORMATION);
+				losingAlert.setContentText("You Lose!");
+				losingAlert.showAndWait();
+			}
+			disableGUI();
 		}
 	}
 	
@@ -303,6 +326,8 @@ public class Connect4Controller {
 					if (id != null) {
 						currId = model.getBoard().get(col).get(row);
 						currCount = 1;
+					} else {
+						currCount = 0;
 					}
 				}
 			}

@@ -49,6 +49,7 @@ public class Connect4View extends Application implements java.util.Observer {
 	
 	private Connect4Controller controller;
 	private Connect4Model model;
+	private Circle[][] circles;
 
 	/**
 	 * Method that initiates the Connect 4 Game
@@ -65,6 +66,7 @@ public class Connect4View extends Application implements java.util.Observer {
 		
 		setupStage();
 		this.primaryStage.show();
+//		Platform.setImplicitExit(false);
 		this.sceneWidth = this.primaryStage.getWidth();
 	}
 	
@@ -98,7 +100,6 @@ public class Connect4View extends Application implements java.util.Observer {
 				controller.createGame(networkingRole.equals("server"), 
 						playerRole.equals("human"), host, port);
 				gameExists = true;
-				createGridPane();
 			}
 		});
 		fileMenu.getItems().add(newGameItem);
@@ -138,22 +139,19 @@ public class Connect4View extends Application implements java.util.Observer {
 				} else {
 					targetColumn = (int)((xPos - 4) / INNER_RANGE);
 				}
-				// Pass to model the column requested by user
 				controller.humanTurn(targetColumn);
 			}
 		});
+		
+		circles = new Circle[Connect4Controller.ROWS][Connect4Controller.COLUMNS];
 		
 		// Initialize each cell with a WHITE Circle Object
 		for (int row = 0; row < Connect4Controller.ROWS; row++) {
 			for (int col = 0; col < Connect4Controller.COLUMNS; col++) {
 				Circle circle = new Circle(CIRCLE_RADIUS);
+				circles[row][col] = circle;
 				circle.setFill(Color.WHITE);
 				gridPane.add(circle, col, row);
-//				circle.setOnMouseClicked(e -> {
-//					circle.setFill(Color.RED);
-//					System.out.println("column: " + GridPane.getColumnIndex(circle));
-//					System.out.println("row: " + GridPane.getRowIndex(circle));
-//				});
 			}
 		}
 	}
@@ -171,40 +169,11 @@ public class Connect4View extends Application implements java.util.Observer {
 			int row = Connect4Controller.ROWS - message.getRow() - 1;
 			int col = message.getColumn();
 			int color = message.getColor();
-//			if (color == Connect4MoveMessage.YELLOW) {
-//				Platform.runLater(new TokenRunnable(Color.YELLOW, row, col));
-//			} else {
-//				Platform.runLater(new TokenRunnable(Color.RED, row, col));
-//			}
-//			System.out.println(gridpa)
-//			int[] args = (int[])arg;
-//			System.out.println(args[0]);
-//			System.out.println(args[1]);
-//			System.out.println(args[2]);
-
-			// Pull adjusted placement onto GridPane
-//			int rowPlacement = Connect4Controller.ROWS - ((int[])arg)[1] - 1;
-//			int colPlacement = ((int[])arg)[0];
-
-			for (Node child : gridPane.getChildren()) {
-				// If matching row,col -> Update with corresponding color
-				if (GridPane.getRowIndex(child).equals(row) 
-						&& GridPane.getColumnIndex(child).equals(col)) {
-					if (color == Connect4MoveMessage.YELLOW) {
-						((Circle)child).setFill(Color.YELLOW);
-						System.out.println("YELLOW");
-//						Platform.runLater(new TokenRunnable((Circle)child, Color.YELLOW, row, col));
-//						Platform.runLater(() -> ((Circle)child).setFill(Color.YELLOW));
-					} else {
-						System.out.println("RED");
-						((Circle)child).setFill(Color.RED);
-//						Platform.runLater(new TokenRunnable((Circle)child, Color.RED, row, col));
-//						Platform.runLater(() -> ((Circle)child).setFill(Color.RED));
-					}
-					System.out.println(((Circle)child).getFill());
-					System.out.println("Thread: " + Thread.currentThread().getName());
-				}
 			
+			if (color == Connect4MoveMessage.YELLOW) {
+				circles[row][col].setFill(Color.YELLOW);
+			} else {
+				circles[row][col].setFill(Color.RED);
 			}
 			
 			// After each update, check if game is over
@@ -212,50 +181,7 @@ public class Connect4View extends Application implements java.util.Observer {
 				controller.declareWinner();
 			}
 			
-		} else if (arg instanceof Integer) {
-			gridPane.setDisable(true);
-			
-			// Holds logic for detecting when game is over
-			if (((Integer)arg) != -1) {
-				Alert winningAlert = new Alert(AlertType.INFORMATION);
-				winningAlert.setContentText("You Win!");
-				winningAlert.showAndWait();
-				gameExists = false;
-			} else {
-				Alert losingAlert = new Alert(AlertType.INFORMATION);
-				losingAlert.setContentText("You Lose!");
-				losingAlert.showAndWait();
-				gameExists = false;
-			}
 		}
-		
-		
 	}
 	
-//	private class TokenRunnable implements Runnable {
-//		private Color color;
-//		private int row;
-//		private int col;
-//		
-//		public TokenRunnable(Color color, int row, int col) {
-//			this.color = color;
-//			this.row = row;
-//			this.col = col;
-//		}
-//
-//		@Override
-//		public void run() {
-//			for (Node child : gridPane.getChildren()) {
-//				// If matching row,col -> Update with corresponding color
-//				if (GridPane.getRowIndex(child).equals(row) 
-//						&& GridPane.getColumnIndex(child).equals(col)) {
-//					((Circle)child).setFill(color);
-//					System.out.println(((Circle)child).getFill());
-//					System.out.println("THREAD::::    " + Thread.currentThread().getName());
-//				}
-//			}
-////			token.setFill(color);
-//		}
-//		
-//	}
 }
