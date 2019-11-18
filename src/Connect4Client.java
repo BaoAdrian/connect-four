@@ -4,6 +4,8 @@ import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
 
+import Connect4Server.RunnableSendMessage;
+
 public class Connect4Client {
 	// Fields
 	private Socket server;
@@ -23,8 +25,8 @@ public class Connect4Client {
 	public boolean connect(){
 		try {
 			server = new Socket(host, port);
-			output = new ObjectOutputStream(server.getOutputStream());
-			input = new ObjectInputStream(server.getInputStream());
+//			output = new ObjectOutputStream(server.getOutputStream());
+//			input = new ObjectInputStream(server.getInputStream());
 			return true;
 		} catch (ConnectException e) {
 			System.out.println("Error, server not initialized yet.");
@@ -40,12 +42,9 @@ public class Connect4Client {
 	}
 	
 	public void sendMessage(Connect4MoveMessage message) {
-		try {
-			output.writeObject(message);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		RunnableSendMessage runnableMsg = new RunnableSendMessage(message);
+		Thread messageThread = new Thread(runnableMsg);
+		messageThread.start();
 	}
 	
 	public void closeServer() {
@@ -54,6 +53,26 @@ public class Connect4Client {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	private class RunnableSendMessage implements Runnable {
+		private Connect4MoveMessage message;
+		
+		public RunnableSendMessage(Connect4MoveMessage message) {
+			this.message = message;
+		}
+		@Override
+		public void run() {
+			try {
+				output = new ObjectOutputStream(server.getOutputStream());
+				output.writeObject(message);
+				output.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 	}
 }
