@@ -1,8 +1,13 @@
 /**
- * Connect4NetworkSetup
  * @author Mauricio Herrera, Adrian Bao
  * 
- * Purpose: This is an object that represents the setup
+ * CSC 335 - Object Oriented Programming and Design
+ * 
+ * Title: Networked Connect 4
+ * 
+ * File: Connect4NetworkSetup.java
+ * 
+ * Description: This is an object that represents the setup
  * menu that pops up to request host, port, and player 
  * information prior to the start of a Networking Connect
  * 4 game.
