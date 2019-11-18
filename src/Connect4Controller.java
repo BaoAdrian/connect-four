@@ -14,8 +14,6 @@
 
 import java.util.List;
 import java.util.Random;
-
-import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
