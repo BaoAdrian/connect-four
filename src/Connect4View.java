@@ -1,9 +1,20 @@
 /**
  * @author Mauricio Herrera, Adrian Bao
  * 
+ * CSC 335 - Object Oriented Programming and Design
+ * 
+ * Title: Networked Connect 4
+ * 
+ * File: Connect4View.java
+ * 
+ * Description: This class launches the GUI for the Connect 4 game, and
+ * creates handlers to add new tokens to board. This class also acts as
+ * an Observer and is handles updates to the Model in the update method.
  */
 
 import java.util.Observable;
+import java.util.Set;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -116,25 +127,20 @@ public class Connect4View extends Application implements java.util.Observer {
 		
 		// Handler for GridPane
 		gridPane.setOnMouseClicked( e -> {
-			// Calculate selected column based on event location
-			int targetColumn;
-			int xPos = (int)e.getX();
-			if (xPos <= OUTER_RANGE) {
-				targetColumn = 0;
-			} else if (xPos >= sceneWidth - OUTER_RANGE) {
-				targetColumn = 6;
-			} else {
-				targetColumn = (int)((xPos - 4) / INNER_RANGE);
-			}
-			
 			if (gameExists && !controller.isGUIDisabled()) {
+				// Calculate selected column based on event location
+				int targetColumn;
+				int xPos = (int)e.getX();
+				if (xPos <= OUTER_RANGE) {
+					targetColumn = 0;
+				} else if (xPos >= sceneWidth - OUTER_RANGE) {
+					targetColumn = 6;
+				} else {
+					targetColumn = (int)((xPos - 4) / INNER_RANGE);
+				}
 				// Pass to model the column requested by user
 				controller.humanTurn(targetColumn);
 			}
-//			controller.humanTurn(targetColumn);
-//			System.out.println(targetColumn);
-//			System.out.println(gameExists);
-//			System.out.println(controller.isGUIDisabled());
 		});
 		
 		// Initialize each cell with a WHITE Circle Object
@@ -144,6 +150,7 @@ public class Connect4View extends Application implements java.util.Observer {
 				circle.setFill(Color.WHITE);
 				gridPane.add(circle, col, row);
 //				circle.setOnMouseClicked(e -> {
+//					circle.setFill(Color.RED);
 //					System.out.println("column: " + GridPane.getColumnIndex(circle));
 //					System.out.println("row: " + GridPane.getRowIndex(circle));
 //				});
@@ -164,6 +171,11 @@ public class Connect4View extends Application implements java.util.Observer {
 			int row = Connect4Controller.ROWS - message.getRow() - 1;
 			int col = message.getColumn();
 			int color = message.getColor();
+//			if (color == Connect4MoveMessage.YELLOW) {
+//				Platform.runLater(new TokenRunnable(Color.YELLOW, row, col));
+//			} else {
+//				Platform.runLater(new TokenRunnable(Color.RED, row, col));
+//			}
 //			System.out.println(gridpa)
 //			int[] args = (int[])arg;
 //			System.out.println(args[0]);
@@ -173,22 +185,26 @@ public class Connect4View extends Application implements java.util.Observer {
 			// Pull adjusted placement onto GridPane
 //			int rowPlacement = Connect4Controller.ROWS - ((int[])arg)[1] - 1;
 //			int colPlacement = ((int[])arg)[0];
-			
-			ObservableList<Node> children = gridPane.getChildren();
-			for (Node child : children) {
+
+			for (Node child : gridPane.getChildren()) {
 				// If matching row,col -> Update with corresponding color
 				if (GridPane.getRowIndex(child).equals(row) 
 						&& GridPane.getColumnIndex(child).equals(col)) {
-					System.out.println(row + "::::::" + col);
 					if (color == Connect4MoveMessage.YELLOW) {
-//						((Circle)child).setFill(Color.YELLOW);
-						Platform.runLater(() -> ((Circle)child).setFill(Color.YELLOW));
+						((Circle)child).setFill(Color.YELLOW);
+						System.out.println("YELLOW");
+//						Platform.runLater(new TokenRunnable((Circle)child, Color.YELLOW, row, col));
+//						Platform.runLater(() -> ((Circle)child).setFill(Color.YELLOW));
 					} else {
-//						((Circle)child).setFill(Color.RED);
-						Platform.runLater(() -> ((Circle)child).setFill(Color.RED));
+						System.out.println("RED");
+						((Circle)child).setFill(Color.RED);
+//						Platform.runLater(new TokenRunnable((Circle)child, Color.RED, row, col));
+//						Platform.runLater(() -> ((Circle)child).setFill(Color.RED));
 					}
 					System.out.println(((Circle)child).getFill());
+					System.out.println("Thread: " + Thread.currentThread().getName());
 				}
+			
 			}
 			
 			// After each update, check if game is over
@@ -204,13 +220,42 @@ public class Connect4View extends Application implements java.util.Observer {
 				Alert winningAlert = new Alert(AlertType.INFORMATION);
 				winningAlert.setContentText("You Win!");
 				winningAlert.showAndWait();
+				gameExists = false;
 			} else {
 				Alert losingAlert = new Alert(AlertType.INFORMATION);
 				losingAlert.setContentText("You Lose!");
 				losingAlert.showAndWait();
+				gameExists = false;
 			}
 		}
 		
 		
 	}
+	
+//	private class TokenRunnable implements Runnable {
+//		private Color color;
+//		private int row;
+//		private int col;
+//		
+//		public TokenRunnable(Color color, int row, int col) {
+//			this.color = color;
+//			this.row = row;
+//			this.col = col;
+//		}
+//
+//		@Override
+//		public void run() {
+//			for (Node child : gridPane.getChildren()) {
+//				// If matching row,col -> Update with corresponding color
+//				if (GridPane.getRowIndex(child).equals(row) 
+//						&& GridPane.getColumnIndex(child).equals(col)) {
+//					((Circle)child).setFill(color);
+//					System.out.println(((Circle)child).getFill());
+//					System.out.println("THREAD::::    " + Thread.currentThread().getName());
+//				}
+//			}
+////			token.setFill(color);
+//		}
+//		
+//	}
 }

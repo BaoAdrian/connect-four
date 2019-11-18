@@ -1,14 +1,18 @@
 /**
- * Connect4Model
  * @author Mauricio Herrera, Adrian Bao
  * 
- * Purpose: This class contains the state of the game 
+ * CSC 335 - Object Oriented Programming and Design
+ * 
+ * Title: Networked Connect 4
+ * 
+ * File: Connect4Model.java
+ * 
+ * Description: This class contains the state of the game 
  * maintained as a board (two-dimensional ArrayLists).
  * Incorporates the appropriate accessors/mutators as 
  * well as update methods to notify any Observer that 
- * this Observable has been changed.
- * 
- * This is the Observable for Connect 4
+ * this Observable has been changed. This is the Observable 
+ * for Connect4.
  */
 
 import java.util.ArrayList;

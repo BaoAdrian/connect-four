@@ -1,3 +1,16 @@
+/**
+ * @author Mauricio Herrera, Adrian Bao
+ * 
+ * CSC 335 - Object Oriented Programming and Design
+ * 
+ * Title: Networked Connect 4
+ * 
+ * File: Connect4Server.java
+ * 
+ * Description: This class creates a server to be used to communicate
+ * between players of Connect4. 
+ */
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -5,6 +18,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class Connect4Server {
 	
@@ -30,7 +45,11 @@ public class Connect4Server {
 		}
 	}
 	
-	// Add a throws null pointer exception and check for it in case client has not connected
+	/**
+	 * This method transmits a message to the client by using a new
+	 * thread.
+	 * @param message Connect4MoveMessage instance to be sent
+	 */
 	public void sendMessage(Connect4MoveMessage message){
 		System.out.println("sent: " + message);
 		RunnableSendMessage runnableMsg = new RunnableSendMessage(message);
@@ -38,21 +57,45 @@ public class Connect4Server {
 		messageThread.start();
 	}
 	
-	
+	/**
+	 * This method creates a new thread to wait for a new move message to
+	 * be transmitted by the client. After that, it calls for the 
+	 * controller to handle the move.
+	 */
 	public void waitForMessage() {
 		Thread incomingMessage = new Thread(new RunnableGetMessage());
 		incomingMessage.start();
 	}
 	
+	/**
+	 * 
+	 * @author Mauricio Herrera, Adrian Bao
+	 * 
+	 * Description: This class adds an implementation to the run
+	 * method in the Runnable class to be executed in a separate thread.
+	 *
+	 */
 	private class RunnableGetMessage implements Runnable {
+		/**
+		 * This method obtains a message from the client and passes it 
+		 * over to the controller to handle the move.
+		 */
 		@Override
 		public void run() {
 			try {
 				input = new ObjectInputStream(connection.getInputStream());
 				message = (Connect4MoveMessage)input.readObject();
 				System.out.println("received: " + message);
-//				Platform.runLater(() -> controller.handleMessage(message));
-				controller.handleMessage(message);
+//				Platform.runLater(new Runnable() {
+//
+//					@Override
+//					public void run() {
+//						controller.handleMessage(message);
+//					}
+//					
+//				});
+				Platform.runLater(() -> controller.handleMessage(message));
+//				controller.handleMessage(message);
 //				input.close();
 			} catch (IOException | ClassNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -61,12 +104,26 @@ public class Connect4Server {
 		}
 	}
 	
+	/**
+	 * 
+	 * @author Mauricio Herrera, Adrian Bao
+	 * 
+	 * Description: This class adds an implementation to the run
+	 * method in the Runnable class to be executed in a separate thread.
+	 *
+	 */
 	private class RunnableSendMessage implements Runnable {
+		// class fields
 		private Connect4MoveMessage message;
 		
+		// Constructor
 		public RunnableSendMessage(Connect4MoveMessage message) {
 			this.message = message;
 		}
+		
+		/**
+		 * This method sends a move message to the client.
+		 */
 		@Override
 		public void run() {
 			try {
@@ -74,20 +131,28 @@ public class Connect4Server {
 				output.writeObject(message);
 //				output.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 		}
 	}
 	
+	/**
+	 * 
+	 * @author Mauricio Herrera, Adrian Bao
+	 * 
+	 * Description: This class adds an implementation to the run
+	 * method in the Runnable class to be executed in a separate thread.
+	 *
+	 */
 	private class RunnableConnection implements Runnable {
-
+		/**
+		 * This method accepts a connection to the client.
+		 */
 		@Override
 		public void run() {
 			try {
 				connection = server.accept();
-//				output = new ObjectOutputStream(connection.getOutputStream());
 				controller.enableGUI();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

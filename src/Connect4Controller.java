@@ -1,8 +1,13 @@
 /**
- * Connect4Controller
  * @author Mauricio Herrera, Adrian Bao
  * 
- * Purpose: Controller of the MVC Design Pattern implemented
+ * CSC 335 - Object Oriented Programming and Design
+ * 
+ * Title: Networked Connect 4
+ * 
+ * File: Connect4Controller.java
+ * 
+ * Description: Controller of the MVC Design Pattern implemented
  * for Connect 4. Contains all of the game logic including turns
  * win detection, and state update transfers.
  */
@@ -45,12 +50,19 @@ public class Connect4Controller {
 		if (isServer) {
 			server = new Connect4Server(port, this);
 			GUIDisabled = false;
+			if (!isHuman) {
+				Alert noClient = new Alert(AlertType.WARNING);
+				noClient.setContentText("Please wait for client to join, then press ok");
+				noClient.showAndWait();
+				computerTurn();    						// Needs check for when client has not joined
+			}
 		} else {
 			client = new Connect4Client(host, port, this);
 			client.connect();
 			client.waitForMessage();
 			GUIDisabled = true;
 		}
+		
 		
 ////		// Instantiating both server and client for debugging purposes.
 //		server = new Connect4Server(4000, this);
@@ -80,7 +92,9 @@ public class Connect4Controller {
 	 * to set it equal to false, enabling the GUI.
 	 */
 	public void enableGUI() {
-		GUIDisabled = false;
+		if (isHuman) {
+			GUIDisabled = false;
+		}
 	}
 	
 	/**
@@ -93,7 +107,13 @@ public class Connect4Controller {
 	 */
 	public void handleMessage(Connect4MoveMessage message) {
 		model.updateBoard(message);
-		enableGUI();
+		if(!checkIfGameOver()) {
+			if (isHuman) {
+				enableGUI();
+			} else {
+				computerTurn();
+			}
+		}
 	}
 	
 	/**
@@ -248,6 +268,8 @@ public class Connect4Controller {
 		
 		winningId = checkDiagonals();
 		if (winningId != -1) {
+			model.updateBoard(winningId);
+		} else {
 			model.updateBoard(winningId);
 		}
 	}
