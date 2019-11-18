@@ -70,8 +70,7 @@ public class Connect4Model extends java.util.Observable {
 	public void updateBoard(Connect4MoveMessage message) {
 		board.get(message.getColumn()).set(message.getRow(), message.getColor());
 		setChanged();
-		int parameters[] = {message.getColumn(), message.getRow(), message.getColor()};
-		notifyObservers(parameters);
+		notifyObservers(message);
 	}
 	
 	/**

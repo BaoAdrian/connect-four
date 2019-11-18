@@ -5,6 +5,7 @@
 
 import java.util.Observable;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -83,7 +84,8 @@ public class Connect4View extends Application implements java.util.Observer {
 				String host = dialog.getHost();
 				int port = dialog.getPort();
 				
-				controller.createGame(networkingRole.equals("server"), playerRole.equals("human"), host, port);
+				controller.createGame(networkingRole.equals("server"), 
+						playerRole.equals("human"), host, port);
 				gameExists = true;
 				createGridPane();
 			}
@@ -141,6 +143,10 @@ public class Connect4View extends Application implements java.util.Observer {
 				Circle circle = new Circle(CIRCLE_RADIUS);
 				circle.setFill(Color.WHITE);
 				gridPane.add(circle, col, row);
+//				circle.setOnMouseClicked(e -> {
+//					System.out.println("column: " + GridPane.getColumnIndex(circle));
+//					System.out.println("row: " + GridPane.getRowIndex(circle));
+//				});
 			}
 		}
 	}
@@ -153,26 +159,35 @@ public class Connect4View extends Application implements java.util.Observer {
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		if (arg instanceof int[]) {
+		if (arg instanceof Connect4MoveMessage) {
+			Connect4MoveMessage message = (Connect4MoveMessage)arg;
+			int row = Connect4Controller.ROWS - message.getRow() - 1;
+			int col = message.getColumn();
+			int color = message.getColor();
+//			System.out.println(gridpa)
 //			int[] args = (int[])arg;
 //			System.out.println(args[0]);
 //			System.out.println(args[1]);
 //			System.out.println(args[2]);
 
 			// Pull adjusted placement onto GridPane
-			int rowPlacement = Connect4Controller.ROWS - ((int[])arg)[1] - 1;
-			int colPlacement = ((int[])arg)[0];
+//			int rowPlacement = Connect4Controller.ROWS - ((int[])arg)[1] - 1;
+//			int colPlacement = ((int[])arg)[0];
 			
 			ObservableList<Node> children = gridPane.getChildren();
 			for (Node child : children) {
 				// If matching row,col -> Update with corresponding color
-				if (GridPane.getRowIndex(child) == rowPlacement 
-						&& GridPane.getColumnIndex(child) == colPlacement) {
-					if (((int[])arg)[2] == Connect4MoveMessage.YELLOW) {
-						((Circle)child).setFill(Color.YELLOW);
+				if (GridPane.getRowIndex(child).equals(row) 
+						&& GridPane.getColumnIndex(child).equals(col)) {
+					System.out.println(row + "::::::" + col);
+					if (color == Connect4MoveMessage.YELLOW) {
+//						((Circle)child).setFill(Color.YELLOW);
+						Platform.runLater(() -> ((Circle)child).setFill(Color.YELLOW));
 					} else {
-						((Circle)child).setFill(Color.RED);
+//						((Circle)child).setFill(Color.RED);
+						Platform.runLater(() -> ((Circle)child).setFill(Color.RED));
 					}
+					System.out.println(((Circle)child).getFill());
 				}
 			}
 			
