@@ -75,7 +75,6 @@ public class Connect4View extends Application implements java.util.Observer {
 		MenuItem newGameItem = new MenuItem("New Game");
 		// Add new game functionality
 		newGameItem.setOnAction((e) -> {
-			createGridPane();
 			// Add NetworkSetup call
 			Connect4NetworkSetup dialog = new Connect4NetworkSetup();
 			
@@ -87,6 +86,7 @@ public class Connect4View extends Application implements java.util.Observer {
 				
 				controller.createGame(networkingRole.equals("server"), playerRole.equals("human"), host, port);
 				gameExists = true;
+				createGridPane();
 			}
 		});
 		fileMenu.getItems().add(newGameItem);
@@ -131,6 +131,7 @@ public class Connect4View extends Application implements java.util.Observer {
 				controller.humanTurn(targetColumn);
 			}
 //			controller.humanTurn(targetColumn);
+			System.out.println(targetColumn);
 		});
 		
 		// Initialize each cell with a WHITE Circle Object
