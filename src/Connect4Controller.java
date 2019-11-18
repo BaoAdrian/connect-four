@@ -1,6 +1,9 @@
 import java.util.List;
 import java.util.Random;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 public class Connect4Controller {
 	// Creates Model and View
 	private Connect4Model model;
@@ -32,15 +35,10 @@ public class Connect4Controller {
 		// Network role is server, start server.
 		if (isServer) {
 			server = new Connect4Server(port, this);
-			GUIDisabled = false;
 		} else {
 			client = new Connect4Client(host, port);
-			GUIDisabled = true;
 		}
-		
-		if (!this.isHuman) {
-			GUIDisabled = true;
-		}
+		GUIDisabled = true;
 	}
 	
 	public boolean isGUIDisabled() {
@@ -68,6 +66,9 @@ public class Connect4Controller {
 		if (hasOpenSlot(col)) {
 			placeInRow(col);
 		} else {
+			Alert columnFullAlert = new Alert(AlertType.WARNING);
+			columnFullAlert.setContentText("Column full, pick somewhere else!");
+			columnFullAlert.showAndWait();
 			// Invalid slot chosen, notify model of erroneous
 			// placement, pop modal
 		}
