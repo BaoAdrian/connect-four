@@ -5,8 +5,11 @@
  * 
  * Title: Networked Connect 4
  * 
+ * File: Connect4.java
+ * 
  * Description: This class launches the GUI for the Connect 4 game.
  */
+
 import javafx.application.Application;
 
 public class Connect4 {
