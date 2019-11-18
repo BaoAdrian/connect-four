@@ -130,13 +130,17 @@ public class Connect4Test {
 	
 	@Test
 	public void testMoveMessage() {
-		Connect4MoveMessage message = new Connect4MoveMessage(0, 1, Connect4MoveMessage.RED);
-		assertEquals(message.getRow(), 0);
-		assertNotEquals(message.getRow(), -1);
-		assertEquals(message.getColumn(), 1);
-		assertNotEquals(message.getColumn(), -1);
-		assertEquals(message.getColor(), Connect4MoveMessage.RED);
-		assertNotEquals(message.getColor(), Connect4MoveMessage.YELLOW);		
+		Connect4MoveMessage yellowMessage = new Connect4MoveMessage(1, 2, Connect4MoveMessage.YELLOW);
+		Connect4MoveMessage redMessage = new Connect4MoveMessage(0, 1, Connect4MoveMessage.RED);
+		assertEquals(redMessage.getRow(), 0);
+		assertNotEquals(redMessage.getRow(), -1);
+		assertEquals(redMessage.getColumn(), 1);
+		assertNotEquals(redMessage.getColumn(), -1);
+		assertEquals(redMessage.getColor(), Connect4MoveMessage.RED);
+		assertNotEquals(redMessage.getColor(), Connect4MoveMessage.YELLOW);		
+		
+		assertNotNull(yellowMessage.toString());
+		assertNotNull(redMessage.toString());
 	}
 	
 	/**
