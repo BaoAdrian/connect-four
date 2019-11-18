@@ -91,7 +91,7 @@ public class Connect4View extends Application implements java.util.Observer {
 			// Add NetworkSetup call
 			Connect4NetworkSetup dialog = new Connect4NetworkSetup();
 			
-			if (!dialog.isCancelled()) {
+			if (!dialog.isCancelled() && !gameExists) {
 				String networkingRole = dialog.getNetworkingRole();
 				String playerRole = dialog.getPlayerRole();
 				String host = dialog.getHost();
@@ -100,6 +100,23 @@ public class Connect4View extends Application implements java.util.Observer {
 				controller.createGame(networkingRole.equals("server"), 
 						playerRole.equals("human"), host, port);
 				gameExists = true;
+			} else if (!dialog.isCancelled() && gameExists) {
+				// Closing connections from old game
+				controller.closeConnections();
+				
+				model = new Connect4Model();
+				controller = new Connect4Controller(model);
+				model.addObserver(this);
+				
+				clearGridPane();
+								
+				String networkingRole = dialog.getNetworkingRole();
+				String playerRole = dialog.getPlayerRole();
+				String host = dialog.getHost();
+				int port = dialog.getPort();
+				
+				controller.createGame(networkingRole.equals("server"), 
+						playerRole.equals("human"), host, port);
 			}
 		});
 		fileMenu.getItems().add(newGameItem);
@@ -113,6 +130,18 @@ public class Connect4View extends Application implements java.util.Observer {
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Connect 4");
 		
+	}
+	
+	/**
+	 * This method sets the color of all circles in the gridPane
+	 * back to white.
+	 */
+	private void clearGridPane() {
+		for (int row = 0; row < Connect4Controller.ROWS; row++) {
+			for (int col = 0; col < Connect4Controller.COLUMNS; col++) {
+				circles[row][col].setFill(Color.WHITE);
+			}
+		}
 	}
 	
 	/**
