@@ -34,14 +34,12 @@ public class Connect4Client {
 //			output = new ObjectOutputStream(server.getOutputStream());
 //			input = new ObjectInputStream(server.getInputStream());
 			return true;
-		} catch (NoRouteToHostException e) {
+		} catch (IOException e) {
+			e.printStackTrace();
 			System.out.println("Error, server not initialized yet.");
 			Alert noServerFoundAlert = new Alert(AlertType.WARNING);
 			noServerFoundAlert.setContentText("Server not found! Please wait for server to start, and try again.");
 			noServerFoundAlert.showAndWait();
-			return false;
-		} catch (IOException e) {
-			e.printStackTrace();
 			return false;
 		}
 	}
