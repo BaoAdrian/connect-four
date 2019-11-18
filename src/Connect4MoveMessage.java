@@ -33,9 +33,9 @@ public class Connect4MoveMessage implements Serializable{
     
     public String toString() {
     	if (color == YELLOW) {
-    		return "column: " + col + ", color: yellow";
+    		return "column: " + col + ", row: " + row +", color: yellow";
     	} else {
-    		return "column: " + col + ", color: red";
+    		return "column: " + col +  ", row: " + row +", color: red";
     	}
     }
 }
