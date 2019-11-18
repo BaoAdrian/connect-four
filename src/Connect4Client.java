@@ -2,9 +2,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ConnectException;
+import java.net.NoRouteToHostException;
 import java.net.Socket;
 
-import Connect4Server.RunnableSendMessage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 
 public class Connect4Client {
 	// Fields
@@ -28,8 +31,11 @@ public class Connect4Client {
 //			output = new ObjectOutputStream(server.getOutputStream());
 //			input = new ObjectInputStream(server.getInputStream());
 			return true;
-		} catch (ConnectException e) {
+		} catch (NoRouteToHostException e) {
 			System.out.println("Error, server not initialized yet.");
+			Alert noServerFoundAlert = new Alert(AlertType.WARNING);
+			noServerFoundAlert.setContentText("Server not found! Please wait for server to start, and try again.");
+			noServerFoundAlert.showAndWait();
 			return false;
 		} catch (IOException e) {
 			e.printStackTrace();
