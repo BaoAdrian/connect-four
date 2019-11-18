@@ -71,7 +71,7 @@ public class Connect4Client {
 				input = new ObjectInputStream(server.getInputStream());
 				Connect4MoveMessage message = (Connect4MoveMessage)input.readObject();
 				controller.handleMessage(message);
-//				input.close();
+//				input.close();											May not need to close
 			} catch (IOException | ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
