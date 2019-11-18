@@ -56,8 +56,9 @@ public class Connect4Client {
 		messageThread.start();
 	}
 	
-	public Connect4MoveMessage waitForMessage() {
-		return null;
+	public void waitForMessage() {
+		Thread incomingMessage = new Thread(new RunnableGetMessage());
+		incomingMessage.start();
 	}
 	
 	public void closeServer() {
@@ -66,6 +67,21 @@ public class Connect4Client {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	private class RunnableGetMessage implements Runnable {
+		@Override
+		public void run() {
+			try {
+				input = new ObjectInputStream(server.getInputStream());
+				Connect4MoveMessage message = (Connect4MoveMessage)input.readObject();
+				controller.handleMessage(message);
+				input.close();
+			} catch (IOException | ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
