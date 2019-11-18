@@ -50,6 +50,13 @@ public class Connect4Model extends java.util.Observable {
 		notifyObservers(parameters);
 	}
 	
+	//
+	public void updateBoard(Connect4MoveMessage message) {
+		board.get(message.getColumn()).set(message.getRow(), message.getColor());
+		setChanged();
+		notifyObservers(message);
+	}
+	
 	/**
 	 * Getter method for the board object
 	 * @return 2D list containing disks.
