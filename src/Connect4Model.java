@@ -5,16 +5,13 @@ public class Connect4Model extends java.util.Observable {
 	// In Board, inner list represents column. Elements in list represent rows.
 	// [0][0] represents lower left position.
 	private List<List<Integer>> board;
-	private boolean isOver;
 	
 	public Connect4Model() {
 		initializeBoard();
-		isOver = false;
 	}
 	
 	public Connect4Model(List<List<Integer>> board) {
 		this.board = board;
-		isOver = false;
 	}
 	
 	/**
@@ -50,13 +47,30 @@ public class Connect4Model extends java.util.Observable {
 		notifyObservers(parameters);
 	}
 	
-	//
+	/**
+	 * Public mutator of the board to insert specified info given
+	 * a Connect4MoveMessage. Notifies all Observers of the change
+	 * to handle accordingly
+	 *  
+	 * @param message Connect4MoveMessage to be parsed for state change
+	 */
 	public void updateBoard(Connect4MoveMessage message) {
 		board.get(message.getColumn()).set(message.getRow(), message.getColor());
 		setChanged();
 		int parameters[] = {message.getColumn(), message.getRow(), message.getColor()};
 		notifyObservers(parameters);
-//		notifyObservers(message);
+	}
+	
+	/**
+	 * Basic update to the game state to provide Observers
+	 * with the winningId used to display the corresponding
+	 * modals.
+	 * 
+	 * @param winningId Integer id of the winner
+	 */
+	public void updateBoard(Integer winningId) {
+		setChanged();
+		notifyObservers(winningId);
 	}
 	
 	/**
@@ -65,18 +79,5 @@ public class Connect4Model extends java.util.Observable {
 	 */
 	public List<List<Integer>> getBoard() {
 		return board;
-	}
-	
-	/**
-	 * Performs an update to the isOver flag and notifies
-	 * all observers of the change in game state so that 
-	 * the Observers can update accordingly.
-	 * 
-	 * @param winningId Integer id of the winner
-	 */
-	public void updateToGameOver(Integer winningId) {
-		isOver = true;
-		setChanged();
-		notifyObservers(winningId);
-	}
+	}	
 }

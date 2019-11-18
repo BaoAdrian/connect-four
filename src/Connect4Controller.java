@@ -213,17 +213,17 @@ public class Connect4Controller {
 		Integer winningId = -1;
 		winningId = checkRows();
 		if (winningId != -1) {
-			model.updateToGameOver(winningId);
+			model.updateBoard(winningId);
 		}
 		
 		winningId = checkCols();
 		if (winningId != -1) {
-			model.updateToGameOver(winningId);
+			model.updateBoard(winningId);
 		}
 		
 		winningId = checkDiagonals();
 		if (winningId != -1) {
-			model.updateToGameOver(winningId);
+			model.updateBoard(winningId);
 		}
 	}
 	
