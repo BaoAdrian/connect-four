@@ -37,6 +37,7 @@ public class Connect4Controller {
 			server = new Connect4Server(port, this);
 		} else {
 			client = new Connect4Client(host, port);
+			client.connect();
 		}
 		GUIDisabled = true;
 	}
@@ -88,6 +89,7 @@ public class Connect4Controller {
 		}
 	}
 	
+	
 	/**
 	 * Checks the given column to see if its a valid move
 	 * 
@@ -118,8 +120,9 @@ public class Connect4Controller {
 		}
 		
 		if (isServer) {
-			message = new Connect4MoveMessage(row, col, Connect4MoveMessage.YELLOW);
 			model.updateBoard(col, row, Connect4MoveMessage.YELLOW);
+			message = new Connect4MoveMessage(row, col, Connect4MoveMessage.YELLOW);
+			server.sendMessage(message);
 		} else {
 			message = new Connect4MoveMessage(row, col, Connect4MoveMessage.RED);
 			model.updateBoard(col, row, Connect4MoveMessage.RED);
