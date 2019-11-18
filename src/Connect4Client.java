@@ -27,7 +27,7 @@ public class Connect4Client {
 	public boolean connect(){
 		try {
 			server = new Socket(host, port);
-			output = new ObjectOutputStream(server.getOutputStream());
+//			output = new ObjectOutputStream(server.getOutputStream());
 //			input = new ObjectInputStream(server.getInputStream());
 			return true;
 		} catch (IOException e) {
@@ -88,7 +88,7 @@ public class Connect4Client {
 		@Override
 		public void run() {
 			try {
-//				output = new ObjectOutputStream(server.getOutputStream());
+				output = new ObjectOutputStream(server.getOutputStream());
 				output.writeObject(message);
 //				output.close();
 			} catch (IOException e) {

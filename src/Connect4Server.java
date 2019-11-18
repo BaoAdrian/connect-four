@@ -47,7 +47,7 @@ public class Connect4Server {
 				input = new ObjectInputStream(connection.getInputStream());
 				Connect4MoveMessage message = (Connect4MoveMessage)input.readObject();
 				controller.handleMessage(message);
-				input.close();
+//				input.close();
 			} catch (IOException | ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -64,7 +64,7 @@ public class Connect4Server {
 		@Override
 		public void run() {
 			try {
-//				output = new ObjectOutputStream(connection.getOutputStream());
+				output = new ObjectOutputStream(connection.getOutputStream());
 				output.writeObject(message);
 //				output.close();
 			} catch (IOException e) {
@@ -81,7 +81,7 @@ public class Connect4Server {
 		public void run() {
 			try {
 				connection = server.accept();
-				output = new ObjectOutputStream(connection.getOutputStream());
+//				output = new ObjectOutputStream(connection.getOutputStream());
 				controller.enableGUI();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
