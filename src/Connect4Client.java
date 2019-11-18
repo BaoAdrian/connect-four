@@ -2,6 +2,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
@@ -14,12 +16,14 @@ public class Connect4Client {
 	private String host;
 	private int port;
 	private Connect4Controller controller;
+	private Connect4MoveMessage message;
 	
 	// Constructor
 	public Connect4Client(String host, int port, Connect4Controller controller) {
 		this.controller = controller;
 		this.host = host;
 		this.port = port;
+		message = null;
 	}
 	
 	
@@ -70,8 +74,9 @@ public class Connect4Client {
 		public void run() {
 			try {
 				input = new ObjectInputStream(server.getInputStream());
-				Connect4MoveMessage message = (Connect4MoveMessage)input.readObject();
+				message = (Connect4MoveMessage)input.readObject();
 				System.out.println("received: " + message);
+//				Platform.runLater(() -> controller.handleMessage(message));
 				controller.handleMessage(message);
 //				input.close();											May not need to close
 			} catch (IOException | ClassNotFoundException e) {

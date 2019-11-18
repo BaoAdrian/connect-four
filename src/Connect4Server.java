@@ -4,6 +4,8 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import javafx.application.Platform;
+
 public class Connect4Server {
 	
 	// Fields
@@ -12,6 +14,7 @@ public class Connect4Server {
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
 	private Connect4Controller controller;
+	private Connect4MoveMessage message;
 	
 	// Constructor
 	public Connect4Server (int port, Connect4Controller controller) {
@@ -20,6 +23,7 @@ public class Connect4Server {
 			server = new ServerSocket(port);
 			Thread connectionThread = new Thread(new RunnableConnection());
 			connectionThread.start();
+			message = null;
 //			input = new ObjectInputStream(connection.getInputStream());
 		} catch (IOException e){
 			e.printStackTrace();
@@ -45,8 +49,9 @@ public class Connect4Server {
 		public void run() {
 			try {
 				input = new ObjectInputStream(connection.getInputStream());
-				Connect4MoveMessage message = (Connect4MoveMessage)input.readObject();
+				message = (Connect4MoveMessage)input.readObject();
 				System.out.println("received: " + message);
+//				Platform.runLater(() -> controller.handleMessage(message));
 				controller.handleMessage(message);
 //				input.close();
 			} catch (IOException | ClassNotFoundException e) {
