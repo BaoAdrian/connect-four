@@ -127,36 +127,20 @@ public class Connect4View extends Application implements java.util.Observer {
 		
 		// Handler for GridPane
 		gridPane.setOnMouseClicked( e -> {
-			// Calculate selected column based on event location
-			int targetColumn;
-			int xPos = (int)e.getX();
-			if (xPos <= OUTER_RANGE) {
-				targetColumn = 0;
-			} else if (xPos >= sceneWidth - OUTER_RANGE) {
-				targetColumn = 6;
-			} else {
-				targetColumn = (int)((xPos - 4) / INNER_RANGE);
-			}
-			
 			if (gameExists && !controller.isGUIDisabled()) {
+				// Calculate selected column based on event location
+				int targetColumn;
+				int xPos = (int)e.getX();
+				if (xPos <= OUTER_RANGE) {
+					targetColumn = 0;
+				} else if (xPos >= sceneWidth - OUTER_RANGE) {
+					targetColumn = 6;
+				} else {
+					targetColumn = (int)((xPos - 4) / INNER_RANGE);
+				}
 				// Pass to model the column requested by user
 				controller.humanTurn(targetColumn);
-				
-//				Thread turnThread = new Thread(new Runnable() {
-//
-//					@Override
-//					public void run() {
-//						controller.humanTurn(targetColumn);
-//						
-//					}
-//					
-//				});
-//				turnThread.start();
 			}
-//			controller.humanTurn(targetColumn);
-//			System.out.println(targetColumn);
-//			System.out.println(gameExists);
-//			System.out.println(controller.isGUIDisabled());
 		});
 		
 		// Initialize each cell with a WHITE Circle Object
@@ -207,18 +191,18 @@ public class Connect4View extends Application implements java.util.Observer {
 				if (GridPane.getRowIndex(child).equals(row) 
 						&& GridPane.getColumnIndex(child).equals(col)) {
 					if (color == Connect4MoveMessage.YELLOW) {
-//						((Circle)child).setFill(Color.YELLOW);
+						((Circle)child).setFill(Color.YELLOW);
 						System.out.println("YELLOW");
 //						Platform.runLater(new TokenRunnable((Circle)child, Color.YELLOW, row, col));
-						Platform.runLater(() -> ((Circle)child).setFill(Color.YELLOW));
+//						Platform.runLater(() -> ((Circle)child).setFill(Color.YELLOW));
 					} else {
 						System.out.println("RED");
-//						((Circle)child).setFill(Color.RED);
+						((Circle)child).setFill(Color.RED);
 //						Platform.runLater(new TokenRunnable((Circle)child, Color.RED, row, col));
-						Platform.runLater(() -> ((Circle)child).setFill(Color.RED));
+//						Platform.runLater(() -> ((Circle)child).setFill(Color.RED));
 					}
 					System.out.println(((Circle)child).getFill());
-					System.out.println("VIEW::::    " + Thread.currentThread().getName());
+					System.out.println("Thread: " + Thread.currentThread().getName());
 				}
 			
 			}
