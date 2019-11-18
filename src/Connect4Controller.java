@@ -1,3 +1,12 @@
+/**
+ * Connect4Controller
+ * @author Mauricio Herrera, Adrian Bao
+ * 
+ * Purpose: Controller of the MVC Design Pattern implemented
+ * for Connect 4. Contains all of the game logic including turns
+ * win detection, and state update transfers.
+ */
+
 import java.util.List;
 import java.util.Random;
 

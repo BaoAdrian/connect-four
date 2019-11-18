@@ -1,3 +1,16 @@
+/**
+ * Connect4Model
+ * @author Mauricio Herrera, Adrian Bao
+ * 
+ * Purpose: This class contains the state of the game 
+ * maintained as a board (two-dimensional ArrayLists).
+ * Incorporates the appropriate accessors/mutators as 
+ * well as update methods to notify any Observer that 
+ * this Observable has been changed.
+ * 
+ * This is the Observable for Connect 4
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 
