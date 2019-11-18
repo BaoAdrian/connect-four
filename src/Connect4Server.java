@@ -28,20 +28,36 @@ public class Connect4Server {
 	}
 	
 	public void sendMessage(Connect4MoveMessage message) {
-		RunnableMessage runnableMsg = new RunnableMessage(message);
+		RunnableSendMessage runnableMsg = new RunnableSendMessage(message);
 		Thread messageThread = new Thread(runnableMsg);
 		messageThread.start();
 	}
 	
 	
-	public Connect4MoveMessage waitForMessage() {
-		
+	public void waitForMessage() {
+		Thread incomingMessage = new Thread(new RunnableGetMessage());
+		incomingMessage.start();
 	}
 	
-	private class RunnableMessage implements Runnable {
+	private class RunnableGetMessage implements Runnable {
+		@Override
+		public void run() {
+			try {
+				input = new ObjectInputStream(connection.getInputStream());
+				Connect4MoveMessage message = (Connect4MoveMessage)input.readObject();
+				controller.handleMessage(message);
+				input.close();
+			} catch (IOException | ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private class RunnableSendMessage implements Runnable {
 		private Connect4MoveMessage message;
 		
-		public RunnableMessage(Connect4MoveMessage message) {
+		public RunnableSendMessage(Connect4MoveMessage message) {
 			this.message = message;
 		}
 		@Override
