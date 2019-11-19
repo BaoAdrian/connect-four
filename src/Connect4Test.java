@@ -45,7 +45,6 @@ public class Connect4Test {
 		// Test method winning board
 		Connect4Controller cTwo = new Connect4Controller(buildBoard(Connect4MoveMessage.YELLOW));
 		assertTrue(cTwo.checkIfGameOver());
-		cTwo.declareWinner();
 	}
 	
 	@Test
@@ -172,6 +171,7 @@ public class Connect4Test {
 		
 		// Test message handling
 		Connect4Controller controller = new Connect4Controller(buildBoard(null));
+		controller.createGame(false, true, "localhost", 4000);
 		controller.handleMessage(yellowMessage);
 		
 	}
