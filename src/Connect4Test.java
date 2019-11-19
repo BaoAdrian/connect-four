@@ -188,6 +188,7 @@ public class Connect4Test {
 	 * Utility function to build board filled with 
 	 * whatever value is passed in (null or valid ids)
 	 * 
+	 * @param val integer to be placed inside board
 	 * @return Generated board
 	 */
 	public List<List<Integer>> buildBoard(Integer val) {
