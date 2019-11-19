@@ -421,7 +421,7 @@ public class Connect4Controller {
 	 * 
 	 * Starting from the given row/col, traverse the existing
 	 * board to see if a winner exists on any right-directed
-	 * diagonal (i.e. row++ && col++ increments)
+	 * diagonal (i.e. row++ and col++ increments)
 	 * 
 	 * @param row Starting row
 	 * @param col Starting column
@@ -457,7 +457,7 @@ public class Connect4Controller {
 	 * 
 	 * Starting from the given row/col, traverse the existing
 	 * board to see if a winner exists on any left-directed
-	 * diagonal (i.e. row-- && col-- increments)
+	 * diagonal (i.e. row-- and col-- increments)
 	 * 
 	 * @param row Starting row
 	 * @param col Starting column

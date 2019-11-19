@@ -111,7 +111,7 @@ public class Connect4Client {
 				Platform.runLater(() -> controller.handleMessage(message));
 			} catch (IOException | ClassNotFoundException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Error getting message from server");
 			}
 		}
 	}

@@ -196,7 +196,7 @@ public class Connect4NetworkSetup extends Stage {
 	
 	/**
 	 * Generates HBox containing the TextFields for 
-	 * Networking Information. Retrieves the server/host &
+	 * Networking Information. Retrieves the server/host and
 	 * the port number from the user to setup Server/Client.
 	 * 
 	 * @return HBox containing Label/TextField pairs for Host/Port
