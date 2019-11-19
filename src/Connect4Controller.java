@@ -182,6 +182,11 @@ public class Connect4Controller {
 		return board.get(column).get(ROWS - 1) == null;
 	}
 	
+	/**
+	 * This method closes sockets connections and output streams in 
+	 * either the server or client, depending on which one the controller
+	 * holds.
+	 */
 	public void closeConnections() {
 		if (isServer) {
 			server.closeConnection();
@@ -280,13 +285,10 @@ public class Connect4Controller {
 	public void declareWinner() {
 		Integer winningId = -1;
 		if (checkRows() != -1) {
-			System.out.println("ROWS WINS");
 			winningId = checkRows();
 		} else if (checkCols() != -1) {
-			System.out.println("COLUMNS WINS");
 			winningId = checkCols();
 		} else if (checkDiagonals() != -1) {
-			System.out.println("DIAGONALS WINS");
 			winningId = checkDiagonals();
 		}
 		
