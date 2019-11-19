@@ -224,7 +224,7 @@ public class Connect4Controller {
 	 * 
 	 * @return int index of valid column, -1 if none available
 	 */
-	private int getValidColumn() {
+	public int getValidColumn() {
 		// Check if board is full, if so, return -1
 		if (isBoardFull()) {
 			return -1;
