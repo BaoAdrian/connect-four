@@ -66,7 +66,6 @@ public class Connect4View extends Application implements java.util.Observer {
 		
 		setupStage();
 		this.primaryStage.show();
-//		Platform.setImplicitExit(false);
 		this.sceneWidth = this.primaryStage.getWidth();
 	}
 	
