@@ -43,6 +43,14 @@ public class Connect4Controller {
 		this.model = new Connect4Model(board);
 	}
 	
+	/**
+	 * This method creates either a server or client instance and calls
+	 * for the first turn.
+	 * @param isServer boolean indicating if instance is a server
+	 * @param isHuman boolean indicating if player is human or AI
+	 * @param host host address for the server
+	 * @param port int indicating port for serverSocket
+	 */
 	public void createGame(boolean isServer, boolean isHuman, String host, int port) {
 		this.isServer = isServer;
 		this.isHuman = isHuman;
