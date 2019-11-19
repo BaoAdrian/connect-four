@@ -1,4 +1,5 @@
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +9,31 @@ import org.junit.jupiter.api.Test;
 public class Connect4Test {
 	
 	@Test
+	public void testCreateGameWithNetworking() {
+		Connect4MoveMessage message = new Connect4MoveMessage(0, 0, 1);
+		List<List<Integer>> emptyBoardOne = buildBoard(null);
+		Connect4Controller controllerOne = new Connect4Controller(emptyBoardOne);
+		List<List<Integer>> emptyBoardTwo = buildBoard(null);
+		Connect4Controller controllerTwo = new Connect4Controller(emptyBoardTwo);
+
+		controllerOne.createGame(true, true, "localhost", 4000);
+		controllerTwo.createGame(false, true, "localhost", 4000);
+		
+		controllerOne.handleMessage(message);
+		
+	}
+	
+	@Test
+	public void testFullBoard() {
+		List<List<Integer>> fullBoard = buildBoard(1);
+		Connect4Controller controller = new Connect4Controller(fullBoard);
+		assertTrue(controller.getValidColumn() == -1);
+	}
+	
+	@Test
 	public void testModelInitialization() {
 		Connect4Controller controller = new Connect4Controller(new Connect4Model());
+		assertTrue(controller != null);
 	}
 	
 	@Test
@@ -69,6 +93,8 @@ public class Connect4Test {
 		rdOne.get(3).set(3, Connect4MoveMessage.YELLOW);
 		Connect4Controller cTwo = new Connect4Controller(rdOne);
 		assertTrue(cTwo.checkIfGameOver());
+//		cTwo.createGame(true, true, "localhost", 4000);
+//		assertThrows(ExceptionInInitializerError.class, () -> cTwo.declareWinner());
 		
 		// Case 3 - Right-directed Diagonal (elsewhere)
 		List<List<Integer>> rdTwo = buildBoard(null);
@@ -78,6 +104,7 @@ public class Connect4Test {
 		rdTwo.get(5).set(3, Connect4MoveMessage.YELLOW);
 		Connect4Controller cThree = new Connect4Controller(rdTwo);
 		assertTrue(cThree.checkIfGameOver());
+		
 		
 		// Case 4 - Left-directed Diagonal (@ column 6)
 		List<List<Integer>> ldOne = buildBoard(null);
@@ -105,7 +132,6 @@ public class Connect4Test {
 		Connect4Controller controller = new Connect4Controller(board);
 		
 		assertTrue(controller.checkIfGameOver());
-		controller.declareWinner();
 	}
 	
 	@Test
