@@ -1,27 +1,10 @@
 import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 public class Connect4Test {
-	
-	@Test
-	public void testCreateGameWithNetworking() {
-		Connect4MoveMessage message = new Connect4MoveMessage(0, 0, 1);
-		List<List<Integer>> emptyBoardOne = buildBoard(null);
-		Connect4Controller controllerOne = new Connect4Controller(emptyBoardOne);
-		List<List<Integer>> emptyBoardTwo = buildBoard(null);
-		Connect4Controller controllerTwo = new Connect4Controller(emptyBoardTwo);
-
-		controllerOne.createGame(true, true, "localhost", 4000);
-		controllerTwo.createGame(false, true, "localhost", 4000);
-		
-		controllerOne.handleMessage(message);
-		
-	}
 	
 	@Test
 	public void testFullBoard() {
@@ -43,9 +26,15 @@ public class Connect4Test {
 		assertFalse(cOne.checkIfGameOver());
 		
 		// Test method winning board
-		Connect4Controller cTwo = new Connect4Controller(buildBoard(Connect4MoveMessage.YELLOW));
+		List<List<Integer>> board = buildBoard(null);
+		board.get(6).set(0, Connect4MoveMessage.RED);
+		board.get(4).set(0, Connect4MoveMessage.YELLOW);
+		board.get(3).set(1, Connect4MoveMessage.YELLOW);
+		board.get(2).set(2, Connect4MoveMessage.YELLOW);
+		board.get(1).set(3, Connect4MoveMessage.YELLOW);
+		Connect4Controller cTwo = new Connect4Controller(board);
+				
 		assertTrue(cTwo.checkIfGameOver());
-		cTwo.declareWinner();
 	}
 	
 	@Test
@@ -136,25 +125,6 @@ public class Connect4Test {
 	}
 	
 	@Test
-	public void testComputerTurn() {
-		// Simulate computer turn beyond max
-		Connect4Controller controller = new Connect4Controller(buildBoard(null));
-		int max = Connect4Controller.ROWS * Connect4Controller.COLUMNS + 1;
-		for(int i = 0; i < max; i++) {
-			controller.computerTurn();
-		}
-	}
-	
-	@Test
-	public void testHumanTurn() {
-		// Simulate user turns beyond max
-		Connect4Controller controller = new Connect4Controller(buildBoard(null));
-		for (int i = 0; i < Connect4Controller.COLUMNS + 1; i++) {
-			controller.humanTurn(0);
-		}
-	}
-	
-	@Test
 	public void testMoveMessageObject() {
 		// Test creation/accessors
 		Connect4MoveMessage yellowMessage = new Connect4MoveMessage(1, 2, Connect4MoveMessage.YELLOW);
@@ -169,19 +139,32 @@ public class Connect4Test {
 		// Test message output for differing message IDs
 		assertNotNull(yellowMessage.toString());
 		assertNotNull(redMessage.toString());
-		
-		// Test message handling
-		Connect4Controller controller = new Connect4Controller(buildBoard(null));
-		controller.handleMessage(yellowMessage);
-		
 	}
 	
 	@Test
 	public void testNetworking() {
 		// Test game creation as SERVER (true) and CLIENT (false)
-		Connect4Controller controller = new Connect4Controller(buildBoard(null));
-		controller.createGame(true, true, "localhost", 4000);
-		controller.createGame(false, true, "localhost", 4000);
+		Connect4Controller serverC = new Connect4Controller(buildBoard(null));
+		serverC.createGame(true, true, "localhost", 4000);
+		
+		Connect4Controller clientC = new Connect4Controller(buildBoard(null));
+		clientC.createGame(false, false, "localhost", 4000);
+		
+		serverC.enableGUI();
+		serverC.disableGUI();
+		serverC.isGUIDisabled();
+		
+		serverC.handleMessage(new Connect4MoveMessage(1, 0, Connect4MoveMessage.RED));
+		clientC.handleMessage(new Connect4MoveMessage(1, 2, Connect4MoveMessage.YELLOW));
+		
+		clientC.computerTurn();
+		for (int i = 0; i < 3; i++) {
+			serverC.humanTurn(0);
+		}
+		serverC.declareWinner();
+		
+		serverC.closeConnections();
+		clientC.closeConnections();
 	}
 	
 	/**
