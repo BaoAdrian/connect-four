@@ -49,22 +49,6 @@ public class Connect4Model extends java.util.Observable {
 	}
 	
 	/**
-	 * Public Mutator of the board to insert a specified color at 
-	 * the given row/col index. As the Observable, sets the state
-	 * that it has changed and notifies all observers.
-	 * 
-	 * @param col Given column to update
-	 * @param row Given row to update
-	 * @param color Color to be set at the given row,col position
-	 */
-	public void updateBoard(int col, int row, int color) {
-		board.get(col).set(row, color);
-		int parameters[] = {col, row, color};
-		setChanged();
-		notifyObservers(parameters);
-	}
-	
-	/**
 	 * Public mutator of the board to insert specified info given
 	 * a Connect4MoveMessage. Notifies all Observers of the change
 	 * to handle accordingly
