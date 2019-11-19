@@ -61,17 +61,6 @@ public class Connect4Model extends java.util.Observable {
 		notifyObservers(message);
 	}
 	
-	/**
-	 * Basic update to the game state to provide Observers
-	 * with the winningId used to display the corresponding
-	 * modals.
-	 * 
-	 * @param winningId Integer id of the winner
-	 */
-	public void updateBoard(Integer winningId) {
-		setChanged();
-		notifyObservers(winningId);
-	}
 	
 	/**
 	 * Getter method for the board object
