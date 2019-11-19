@@ -205,17 +205,13 @@ public class Connect4Controller {
 		}
 		
 		if (isServer) {
-//			model.updateBoard(col, row, Connect4MoveMessage.YELLOW);
 			message = new Connect4MoveMessage(row, col, Connect4MoveMessage.YELLOW);
 			model.updateBoard(message);
-//			Platform.runLater(() -> model.updateBoard(message));
 			server.sendMessage(message);
 			server.waitForMessage();
 		} else {
 			message = new Connect4MoveMessage(row, col, Connect4MoveMessage.RED);
 			model.updateBoard(message);
-//			Platform.runLater(() -> model.updateBoard(message));
-//			model.updateBoard(col, row, Connect4MoveMessage.RED);
 			client.sendMessage(message);
 			client.waitForMessage();
 		}
