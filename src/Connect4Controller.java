@@ -12,6 +12,7 @@
  * win detection, and state update transfers.
  */
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import javafx.scene.control.Alert;
@@ -48,13 +49,20 @@ public class Connect4Controller {
 		
 		// Network role is server, start server.
 		if (isServer) {
-			server = new Connect4Server(port, this);
-			GUIDisabled = false;
-			if (!isHuman) {
-				Alert noClient = new Alert(AlertType.WARNING);
-				noClient.setContentText("Please wait for client to join, then press ok");
-				noClient.showAndWait();
-				computerTurn();   
+			try {
+				server = new Connect4Server(port, this);
+				GUIDisabled = false;
+				if (!isHuman) {
+					Alert noClient = new Alert(AlertType.WARNING);
+					noClient.setContentText("Please wait for client to join, then press ok");
+					noClient.showAndWait();
+					computerTurn();   
+				}
+			} catch (IOException e) {
+				Alert serverRunning = new Alert(AlertType.ERROR);
+				serverRunning.setContentText("Error, a server is already running with the host given");
+				serverRunning.showAndWait();
+				isServer = false;
 			}
 		} else {
 			client = new Connect4Client(host, port, this);

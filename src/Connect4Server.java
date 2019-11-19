@@ -32,17 +32,19 @@ public class Connect4Server {
 	private Connect4MoveMessage message;
 	
 	// Constructor
-	public Connect4Server (int port, Connect4Controller controller) {
-		try {
-			this.controller = controller;
-			server = new ServerSocket(port);
-			Thread connectionThread = new Thread(new RunnableConnection());
-			connectionThread.start();
-			message = null;
-//			input = new ObjectInputStream(connection.getInputStream());
-		} catch (IOException e){
-			e.printStackTrace();
-		}
+	/**
+	 * Instantiates a server object and creates a connection to the client
+	 * @param port port number to be used for ServerSocket
+	 * @param controller Controller instance of the game
+	 * @throws IOException in the case where a server instance is already running
+	 * in the same host
+	 */
+	public Connect4Server (int port, Connect4Controller controller) throws IOException {
+		this.controller = controller;
+		server = new ServerSocket(port);
+		Thread connectionThread = new Thread(new RunnableConnection());
+		connectionThread.start();
+		message = null;
 	}
 	
 	/**
